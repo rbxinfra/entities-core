@@ -1,0 +1,82 @@
+name: EmailAddress
+
+database: RobloxEmailAddresses
+table: EmailAddresses
+
+namespace: Roblox.Platform.Email.Entities
+remote_cacheable: {}
+
+version: 2
+
+id:
+  type: int
+
+properties:
+  - name: Address
+    description: Gets the address of the email
+    type: string
+    nullable: false
+    read_only: false
+    is_unicode: false
+    length: 256
+  - name: IsBlacklisted
+    description: Determines if the email is blacklisted
+    type: bool
+    nullable: false
+    read_only: false
+  - name: IsApproved
+    description: Whether this email address has been Verified by external service
+    type: bool
+    nullable: false
+    read_only: false
+  - name: IsReviewed
+    description: Whether this email address is valid, as determined by external service
+    type: bool
+    nullable: false
+    read_only: false
+  - name: Reviewed
+    description: The date this email address was reviewed
+    type: DateTime
+    nullable: true
+    read_only: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: true
+
+methods:
+  - name: Get
+    type: Lookup
+    parameters:
+      - name: address
+        type: string
+        is_unicode: false
+        length: 256
+  
+  - name: GetOrCreate
+    type: GetOrCreate
+    parameters:
+      - name: address
+        type: string
+        is_unicode: false
+        length: 256
+  
+  - name: GetBlacklistedEmailAddressesPaged
+    dal_name: GetBlacklistedEmailAddressIDsPaged
+    type: GetCollectionPaged
+    passive_properties:
+      - name: IsBlacklisted
+        value: true
+  
+  - name: GetTotalNumberOfBlacklistedEmailAddresses
+    type: GetCount
+    passive_properties:
+      - name: IsBlacklisted
+        value: true
+
+  - name: MultiGet
+    type: MultiGet

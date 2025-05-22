@@ -1,0 +1,45 @@
+name: AuthorizationType
+
+database: RobloxServices
+table: AuthorizationTypes
+
+namespace: Roblox.Api.ControlPlane
+
+version: 2
+
+predefined:
+  method: GetByValue
+  
+  values:
+    - name: None
+    - name: Partial
+    - name: Full
+      
+id:
+  type: byte
+
+properties:
+  - name: Value
+    description: Gets the name of the authorization type
+    type: string
+    nullable: false
+    read_only: false
+    length: 64
+    is_unicode: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: false
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: false
+
+methods:
+  - name: GetByValue
+    type: Lookup
+    parameters:
+      - name: value
+        type: string
+        length: 64
+        is_unicode: false

@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Core library containing platform interfaces for cached-mssql entities</Description>
+
+    <Version>1.2.4</Version>
+  </PropertyGroup>
+
+</Project>

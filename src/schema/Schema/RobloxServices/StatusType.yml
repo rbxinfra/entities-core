@@ -1,0 +1,44 @@
+name: StatusType
+
+database: RobloxServices
+table: StatusTypes
+
+namespace: Roblox.Api.ControlPlane
+
+version: 2
+
+predefined:
+  method: GetByValue
+  
+  values:
+    - name: Disabled
+    - name: Enabled
+      
+id:
+  type: byte
+
+properties:
+  - name: Value
+    description: Gets the name of the status type
+    type: string
+    nullable: false
+    read_only: false
+    length: 64
+    is_unicode: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: false
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: false
+
+methods:
+  - name: GetByValue
+    type: Lookup
+    parameters:
+      - name: value
+        type: string
+        length: 64
+        is_unicode: false

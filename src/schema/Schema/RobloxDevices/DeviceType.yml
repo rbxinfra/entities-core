@@ -1,0 +1,59 @@
+# Configuration file for the RobloxDevices.DeviceType entity
+
+name: DeviceType
+
+database: RobloxDevices
+table: DeviceTypes
+
+namespace: Roblox.Platform.Devices.Entities # Formally Roblox.Classifcation, but we are using a different namespace
+
+version: 2
+
+predefined:
+  method: GetByValue
+  
+  values:
+    - name: Computer
+    - name: Phone
+    - name: Tablet
+    - name: Console
+      
+id:
+  type: byte
+
+properties:
+  - name: Value
+    description: Gets the name of the device type
+    type: string
+    nullable: false
+    read_only: false
+  - name: BitOrdinal
+    description: Gets the bit ordinal of the device type
+    type: byte
+    nullable: false
+    read_only: false
+  - name: BitMask
+    description: Gets the bit mask of the device type
+    type: long
+    nullable: false
+    read_only: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: false
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: false
+
+methods:
+  - name: GetByValue
+    type: Lookup
+    parameters:
+      - name: value
+        type: string
+  - name: GetByBitOrdinal
+    type: Lookup
+    parameters:
+      - name: bitOrdinal
+        type: byte

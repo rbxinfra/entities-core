@@ -1,0 +1,65 @@
+name: IPAddress
+
+database: RobloxIpAddresses
+table: IPAddresses
+
+namespace: Roblox.Platform.IpAddresses.Entities
+remote_cacheable: {}
+
+version: 2
+
+id:
+  type: long
+
+properties:
+  - name: Address
+    description: Gets the address of the IP address
+    type: int
+  - name: Value
+    description: Gets the value of IP address
+    type: string
+    nullable: false
+    read_only: false
+    is_unicode: false
+    length: 15
+  - name: State
+    description: Gets the state of the IP address
+    type: byte
+    nullable: false
+    read_only: false
+  - name: Expiration
+    description: The expiration date of the IP address
+    type: DateTime
+    nullable: true
+    read_only: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: true
+
+methods:
+  - name: Get
+    dal_name: GetByValue
+    type: Lookup
+    parameters:
+      - name: value
+        type: string
+        is_unicode: false
+        length: 15
+  
+  - name: GetOrCreate
+    type: GetOrCreate
+    parameters:
+      - name: address
+        type: int
+      - name: value
+        type: string
+        is_unicode: false
+        length: 15
+  
+  - name: MultiGet
+    type: MultiGet

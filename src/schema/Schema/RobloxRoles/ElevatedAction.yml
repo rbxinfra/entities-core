@@ -1,0 +1,49 @@
+name: ElevatedAction
+
+database: RobloxRoles
+table: ElevatedActions
+
+namespace: Roblox.Web.ElevatedActions.BLL
+dal_namespace: Roblox.Web.ElevatedActions.DAL
+
+version: 2
+
+id:
+  type: int
+
+properties:
+  - name: Name
+    description: Gets the name of the elevated action
+    type: string
+    nullable: false
+    read_only: false
+    length: 256
+    is_unicode: false
+  - name: Description
+    description: Gets the description of the elevated action
+    type: string
+    nullable: false
+    read_only: false
+    length: 256
+    is_unicode: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+  - name: Updated
+    type: DateTime
+    nullable: false
+    read_only: true
+
+methods:
+  - name: Get
+    type: Lookup
+    parameters:
+      - name: name
+        type: string
+        length: 256
+        is_unicode: false
+
+  - name: GetAllElevatedActions
+    dal_name: GetAllElevatedActionIDs
+    type: GetCollection

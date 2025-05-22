@@ -1,0 +1,62 @@
+name: UserMACAddress
+
+database: RobloxMacAddresses
+table: UserMACAddresses
+
+namespace: Roblox.Platform.IpAddresses.Entities
+remote_cacheable: {}
+
+version: 2
+
+id:
+  type: long
+
+properties:
+  - name: UserID
+    description: The user ID of the MAC address
+    type: long
+  - name: MACAddressID
+    description: The MAC address ID of the MAC address
+    type: long
+    foreign_key: "[dbo].[MACAddresses].[ID]"
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+
+methods:
+  - name: Get
+    dal_name: GetUserMACAddressByUserIDAndMACAddressID
+    stored_procedure: GetUserMACAddressByUserIDAndMACAddressID
+    type: Lookup
+    parameters:
+      - name: userID
+        type: long
+      - name: MACAddressID
+        type: long
+
+  - name: GetUserMACAddressesByUserPaged
+    type: GetCollectionPaged
+    parameters:
+      - name: userID
+        type: long
+
+  - name: GetUserMACAddressesByAddressPaged
+    type: GetCollectionPaged
+    parameters:
+      - name: MACAddressID
+        type: long
+
+  - name: GetTotalNumberOfUserMACAddressesByUser
+    type: GetCount
+    count_type: long
+    parameters:
+      - name: userID
+        type: long
+
+  - name: GetTotalNumberOfUserMACAddressesByAddress
+    type: GetCount
+    count_type: long
+    parameters:
+      - name: MACAddressID
+        type: long

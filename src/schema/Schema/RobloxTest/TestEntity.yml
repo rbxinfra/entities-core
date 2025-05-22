@@ -1,0 +1,93 @@
+name: Test
+
+database: TestDatabase
+table: Tests
+
+dal_namespace: Roblox.Mssql.Tests.DAL
+
+version: 1
+
+id: 
+  type: int
+
+remote_cacheable: 
+  memcached_group_setting: Roblox.TestMigrationSettings.TestMigrationSettings.RemoteCacheableSettings
+
+cacheability_settings:
+  is_null_cacheable: false
+
+properties:
+  - name: Name
+    type: string
+    nullable: false
+  - name: Description
+    type: string
+    nullable: true
+    read_only: false
+  - name: AccountID
+    type: long
+    nullable: false
+    read_only: false
+  - name: TestEnumID
+    type: byte
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[TestEnums].[ID]"
+  - name: RawHash
+    type: byte_array
+    read_only: false
+    nullable: true
+    length: 200
+  - name: Created
+    type: DateTime
+    nullable: false
+  - name: Updated
+    type: DateTime
+    nullable: false
+  
+
+generate_must_get: true
+generate_create_new: true
+
+methods:
+  - name: GetByName
+    type: Lookup
+    parameters:
+      - name: name
+        type: string
+  - name: GetByAccountIDAndName
+    type: Lookup
+    parameters:
+      - name: accountID
+        type: int
+      - name: name
+        type: string
+  - name: GetAllPaged
+    type: GetCollectionPaged
+  - name: GetByNamePaged
+    type: GetCollectionPaged
+    parameters:
+      - name: name
+        type: string
+  - name: MultiGet
+    type: MultiGet
+  - name: GetAll
+    type: GetCollection
+  - name: GetTotalNumberOfTests
+    type: GetCount
+  - name: GetTotalNumberOfTestsByAccountIDAndName
+    type: GetCount
+    parameters:
+      - name: accountID
+        type: int
+      - name: name
+        type: string
+  - name: GetOrCreate
+    type: GetOrCreate
+    parameters:
+      - name: name
+        type: string
+      - name: accountID
+        type: int
+      - name: testEnumID
+        type: byte

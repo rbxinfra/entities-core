@@ -1,0 +1,80 @@
+name: User
+
+database: RobloxUsers
+table: Users
+
+namespace: Roblox.Platform.Membership.Entities
+remote_cacheable: {}
+
+version: 2
+
+id:
+  type: long
+
+properties:
+  - name: Name
+    description: Gets the name of the user
+    type: string
+    nullable: false
+    read_only: false
+    is_unicode: false
+    length: 64
+  - name: DisplayNameID
+    description: Gets the display name of the user
+    type: long
+    nullable: true
+    read_only: false
+  - name: UserModerationStatusID
+    description: Gets the moderation status type ID of the user
+    type: byte
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[UserStatuses].[ID]"
+  - name: Description
+    description: Gets the description of the user
+    type: string
+    nullable: false
+    read_only: false
+  - name: AgeBracket
+    description: Gets the age bracket of the user
+    type: byte
+    nullable: false
+    read_only: false
+  - name: AgentID
+    description: Gets the agent ID of the user
+    type: long
+    nullable: true
+    read_only: false
+    foreign_key: "[dbo].[Agents].[ID]"
+  - name: BirthDate
+    description: Gets the birth date of the user
+    type: DateTime
+    nullable: true
+    read_only: false
+  - name: GenderTypeID
+    description: Gets the gender type ID of the user
+    type: byte
+    nullable: true
+    read_only: false
+    foreign_key: "[dbo].[GenderTypes].[ID]"
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: true
+
+methods:
+  - name: Get
+    dal_name: GetByName
+    type: Lookup
+    parameters:
+      - name: name
+        type: string
+        is_unicode: false
+        length: 64
+
+  - name: MultiGet
+    type: MultiGet

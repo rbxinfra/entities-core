@@ -1,0 +1,45 @@
+name: RoleSet
+
+database: RobloxRoles
+table: RoleSets
+
+namespace: Roblox.Platform.Membership.Entities
+
+version: 2
+
+id:
+  type: int
+
+properties:
+  - name: Name
+    description: Gets the name of the role set
+    type: string
+    nullable: false
+    read_only: false
+    length: 256
+    is_unicode: false
+  - name: Rank
+    description: Gets the rank of the role set
+    type: int
+    nullable: false
+    read_only: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+  - name: Updated
+    type: DateTime
+    nullable: false
+    read_only: true
+
+methods:
+  - name: GetByName
+    type: Lookup
+    parameters:
+      - name: name
+        type: string
+        length: 256
+        is_unicode: false
+
+  - name: GetAll
+    type: GetCollection

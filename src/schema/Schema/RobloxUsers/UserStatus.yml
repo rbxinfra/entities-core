@@ -1,0 +1,59 @@
+name: UserStatus
+
+database: RobloxUsers
+table: UserStatuses
+
+namespace: Roblox.Platform.Moderation.Entities
+
+version: 2
+
+predefined:
+  method: GetOrCreate
+  
+  values:
+    - name: Ok
+      properties:
+        - Value: "Ok"
+    - name: Suppressed
+      properties:
+        - Value: "Suppressed"
+    - name: Deleted
+      properties:
+        - Value: "Deleted"
+    - name: Poisoned
+      properties:
+        - Value: "Poisoned"
+    - name: Forgotten
+      properties:
+        - Value: "Forgotten"
+      
+id:
+  type: byte
+
+properties:
+  - name: Value
+    description: Gets the name of the user status type
+    type: string
+    nullable: false
+    read_only: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: false
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: false
+
+methods:
+  - name: GetByValue
+    type: Lookup
+    parameters:
+      - name: value
+        type: string
+        
+  - name: GetOrCreate
+    type: GetOrCreate
+    parameters:
+      - name: value
+        type: string

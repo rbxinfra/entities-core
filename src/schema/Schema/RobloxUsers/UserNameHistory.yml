@@ -1,0 +1,66 @@
+name: UserNameHistory
+
+database: RobloxUsers
+table: UserNameHistory
+
+namespace: Roblox.Platform.Membership.Entities
+remote_cacheable: {}
+
+version: 2
+
+generate_create_new: true
+
+id:
+  type: long
+
+properties:
+  - name: UserID
+    description: The ID of the user this hash belongs to.
+    type: long
+    read_only: false
+    foreign_key: "[dbo].[Users].[ID]"
+  - name: Name
+    description: The name of the user.
+    type: string
+    read_only: false
+    is_unicode: false
+    length: 64
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: true
+
+methods:
+  - name: GetUserNameHistoryByUserIDPaged
+    dal_name: GetUserNameHistoryIDsByUserIDPaged
+    type: GetCollectionPaged
+    parameters:
+      - name: userID
+        type: long
+  
+  - name: GetTotalNumberOfUserNameHistoryByUserID
+    type: GetCount
+    parameters:
+      - name: userID
+        type: long
+
+  - name: GetUserNameHistoryByNamePaged
+    dal_name: GetUserNameHistoryIDsByNamePaged
+    type: GetCollectionPaged
+    parameters:
+      - name: name
+        type: string
+        is_unicode: false
+        length: 64
+  
+  - name: GetTotalNumberOfUserNameHistoryByName
+    type: GetCount
+    parameters:
+      - name: name
+        type: string
+        is_unicode: false
+        length: 64

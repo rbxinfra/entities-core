@@ -1,0 +1,84 @@
+name: UserIPAddressV2
+
+database: RobloxIpAddresses
+table: UserIPAddressesV3
+
+namespace: Roblox.Platform.IpAddresses.Entities
+remote_cacheable: {}
+
+version: 2
+
+id:
+  type: long
+
+properties:
+  - name: UserID
+    description: The user ID of the IP address
+    type: long
+  - name: IPAddressID
+    description: The IP address ID of the IP address
+    type: long
+    foreign_key: "[dbo].[IPAddresses].[ID]"
+  - name: State
+    description: Gets the state of the IP address
+    type: byte
+    nullable: false
+    read_only: false
+  - name: LastSeen
+    description: The last seen date of the IP address
+    type: DateTime
+    nullable: true
+    read_only: false
+    is_utc: true
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+
+methods:
+  - name: GetUserIPAddressesV2ByUserPaged
+    type: GetCollectionPaged
+    parameters:
+      - name: userID
+        type: long
+
+  - name: GetUserIPAddressesV2ByAddressPaged
+    type: GetCollectionPaged
+    parameters:
+      - name: IPAddressID
+        type: long
+
+  - name: GetTotalNumberOfUserIPAddressesV2ByUser
+    type: GetCount
+    count_type: long
+    parameters:
+      - name: userID
+        type: long
+
+  - name: GetTotalNumberOfUserIPAddressesV2ByAddress
+    type: GetCount
+    count_type: long
+    parameters:
+      - name: IPAddressID
+        type: long
+
+  - name: GetOrCreate
+    type: GetOrCreate
+    parameters:
+      - name: userID
+        type: long
+      - name: IPAddressID
+        type: long
+
+  - name: GetUserIPAddressesV2ByUserID
+    type: GetCollectionExclusive
+    exclusive_start_parameters:
+      - name: lastSeen
+        type: DateTime
+        is_utc: true
+    parameters:
+      - name: userID
+        type: long
+  
+  - name: MultiGet
+    type: MultiGet

@@ -1,0 +1,43 @@
+name: Agent
+
+database: RobloxUsers
+table: Agents
+
+namespace: Roblox.Platform.Agents.Entities
+
+version: 2
+
+generate_create_new: true
+      
+id:
+  type: long
+
+properties:
+  - name: AgentTypeID
+    description: Gets the ID of the agent type
+    type: byte
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[AgentTypes].[ID]"
+  - name: AgentTargetID
+    description: Gets the ID of the user or group
+    type: long
+    nullable: false
+    read_only: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: false
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: false
+
+methods:
+  - name: GetByAgentTypeIDAndAgentTargetID
+    type: Lookup
+    parameters:
+      - name: agentTypeID
+        type: byte
+      - name: agentTargetID
+        type: long

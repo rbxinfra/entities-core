@@ -1,0 +1,61 @@
+name: DisplayNameHistory
+
+database: RobloxUsers
+table: DisplayNameHistory
+
+namespace: Roblox.Platform.Membership.Entities
+remote_cacheable: {}
+
+version: 2
+
+generate_create_new: true
+
+id:
+  type: long
+
+properties:
+  - name: UserID
+    description: The ID of the user this hash belongs to.
+    type: long
+    read_only: false
+    foreign_key: "[dbo].[Users].[ID]"
+  - name: DisplayNameID
+    description: The ID of the displayName
+    type: long
+    read_only: false
+    foreign_key: "[dbo].[DisplayNames].[ID]"
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: true
+
+methods:
+  - name: GetDisplayNameHistoryByUserIDPaged
+    dal_name: GetDisplayNameHistoryIDsByUserIDPaged
+    type: GetCollectionPaged
+    parameters:
+      - name: userID
+        type: long
+  
+  - name: GetTotalNumberOfDisplayNameHistoryByUserID
+    type: GetCount
+    parameters:
+      - name: userID
+        type: long
+
+  - name: GetDisplayNameHistoryByDisplayNameIDPaged
+    dal_name: GetDisplayNameHistoryIDsByDisplayNameIDPaged
+    type: GetCollectionPaged
+    parameters:
+      - name: displayNameID
+        type: long
+  
+  - name: GetTotalNumberOfDisplayNameHistoryByDisplayNameID
+    type: GetCount
+    parameters:
+      - name: displayNameID
+        type: long

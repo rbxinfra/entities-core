@@ -1,0 +1,72 @@
+name: OperationAuthorization
+
+database: RobloxServices
+table: OperationAuthorizations
+
+namespace: Roblox.Api.ControlPlane
+
+version: 2
+
+id:
+  type: int
+
+properties:
+  - name: OperationID
+    description: Gets the operation of the operation authorization
+    type: int
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[Operations].[ID]"
+  - name: ApiClientID
+    description: Gets the api client of the operation authorization
+    type: int
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[ApiClients].[ID]"
+  - name: AuthorizationTypeID
+    description: Gets the authorization type of the operation authorization
+    type: byte
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[AuthorizationTypes].[ID]"
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: false
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: false
+
+methods:
+  - name: GetByOperationIDAndApiClientID
+    type: Lookup
+    parameters:
+      - name: operationID
+        type: int
+      - name: apiClientID
+        type: int
+
+  - name: GetTotalNumberOfOperationAuthorizationsByOperationID
+    type: GetCount
+    parameters:
+      - name: operationID
+        type: int
+  
+  - name: GetOperationAuthorizationsByOperationID
+    type: GetCollectionPaged
+    parameters:
+      - name: operationID
+        type: int
+
+  - name: GetTotalNumberOfOperationAuthorizationsByApiClientID
+    type: GetCount
+    parameters:
+      - name: apiClientID
+        type: int
+
+  - name: GetOperationAuthorizationsByApiClientID
+    type: GetCollectionPaged
+    parameters:
+      - name: apiClientID
+        type: int

@@ -1,0 +1,65 @@
+name: ElevatedActionLog
+
+database: RobloxRoles
+table: ElevatedActionLogs
+
+namespace: Roblox.Web.ElevatedActions.BLL
+dal_namespace: Roblox.Web.ElevatedActions.DAL
+
+version: 2
+
+generate_create_new: true
+
+id:
+  type: int
+
+properties:
+  - name: ElevatedActionID
+    description: Gets the id of the elevated action
+    type: int
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[ElevatedActions].[ID]"
+  - name: UserID
+    description: Gets the id of the user
+    type: long
+    nullable: false
+    read_only: false
+  - name: RoleSetID
+    description: Gets the id of the role set
+    type: int
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[RoleSets].[ID]"
+  - name: LogData
+    description: Gets the data of the elevated action log
+    type: string
+    nullable: false
+    read_only: false
+  - name: Success
+    description: Was the log a success
+    type: bool
+    nullable: false
+    read_only: false
+  - name: IpAddress
+    description: Gets the ip address of the elevated action log
+    type: string
+    nullable: false
+    read_only: false
+    length: 40
+    is_unicode: false
+  - name: BrowserTrackerID
+    description: Gets the id of the browser tracker
+    type: long
+    nullable: false
+    read_only: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+  - name: Updated
+    type: DateTime
+    nullable: false
+    read_only: true
+
+methods: []

@@ -1,0 +1,47 @@
+name: Service
+
+database: RobloxServices
+table: Services
+
+namespace: Roblox.Api.ControlPlane
+
+version: 2
+
+id:
+  type: int
+
+properties:
+  - name: Name
+    description: Gets the name of the service
+    type: string
+    nullable: false
+    read_only: false
+    length: 256
+  - name: StatusTypeID
+    description: Gets the status type of the service
+    type: byte
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[StatusTypes].[ID]"
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: false
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: false
+
+methods:
+  - name: GetByName
+    type: Lookup
+    parameters:
+      - name: name
+        type: string
+        length: 256
+
+  - name: GetTotalNumberOfServices
+    type: GetCount
+  
+  - name: GetAllPaged
+    type: GetCollectionPaged

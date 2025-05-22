@@ -1,0 +1,33 @@
+name: DisplayName
+
+database: RobloxUsers
+table: DisplayNames
+
+namespace: Roblox.Platform.Membership.Entities
+remote_cacheable: {}
+
+version: 2
+
+id:
+  type: long
+
+properties:
+  - name: Name
+    description: The name of the user.
+    type: string
+    read_only: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: true
+
+methods:
+  - name: GetOrCreate
+    type: GetOrCreate
+    parameters:
+      - name: name
+        type: string

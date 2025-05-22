@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{16FCBFF5-EA1F-410A-AE76-0039A5CCC355}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Entities", "src\entities\Roblox.Entities.csproj", "{ADE3C46B-A206-403F-B4A3-7CD74189EE77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Entities.Mssql", "src\mssql\Roblox.Entities.Mssql.csproj", "{67BB2089-12B1-4EE8-A40C-073B7C85D4D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roblox.Entities.Schema", "src\schema\Roblox.Entities.Schema.csproj", "{02150BB1-5868-4B20-8E92-F20D54989444}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ADE3C46B-A206-403F-B4A3-7CD74189EE77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADE3C46B-A206-403F-B4A3-7CD74189EE77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADE3C46B-A206-403F-B4A3-7CD74189EE77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADE3C46B-A206-403F-B4A3-7CD74189EE77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67BB2089-12B1-4EE8-A40C-073B7C85D4D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67BB2089-12B1-4EE8-A40C-073B7C85D4D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67BB2089-12B1-4EE8-A40C-073B7C85D4D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67BB2089-12B1-4EE8-A40C-073B7C85D4D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02150BB1-5868-4B20-8E92-F20D54989444}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02150BB1-5868-4B20-8E92-F20D54989444}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02150BB1-5868-4B20-8E92-F20D54989444}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02150BB1-5868-4B20-8E92-F20D54989444}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ADE3C46B-A206-403F-B4A3-7CD74189EE77} = {16FCBFF5-EA1F-410A-AE76-0039A5CCC355}
+		{67BB2089-12B1-4EE8-A40C-073B7C85D4D3} = {16FCBFF5-EA1F-410A-AE76-0039A5CCC355}
+		{02150BB1-5868-4B20-8E92-F20D54989444} = {16FCBFF5-EA1F-410A-AE76-0039A5CCC355}
+	EndGlobalSection
+EndGlobal

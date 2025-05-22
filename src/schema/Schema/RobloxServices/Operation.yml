@@ -1,0 +1,61 @@
+name: Operation
+
+database: RobloxServices
+table: Operations
+
+namespace: Roblox.Api.ControlPlane
+
+version: 2
+
+id:
+  type: int
+
+properties:
+  - name: Name
+    description: Gets the name of the operation
+    type: string
+    nullable: false
+    read_only: false
+    length: 256
+  - name: ServiceID
+    description: Gets the service of the operation
+    type: int
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[Services].[ID]"
+  - name: StatusTypeID
+    description: Gets the status type of the operation
+    type: byte
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[StatusTypes].[ID]"
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: false
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: false
+
+methods:
+  - name: GetByServiceIDAndName
+    type: Lookup
+    parameters:
+      - name: serviceID
+        type: int
+      - name: name
+        type: string
+        length: 256
+  
+  - name: GetTotalNumberOfOperationsByServiceID
+    type: GetCount
+    parameters:
+      - name: serviceID
+        type: int
+
+  - name: GetOperationsByServiceID
+    type: GetCollectionPaged
+    parameters:
+      - name: serviceID
+        type: int

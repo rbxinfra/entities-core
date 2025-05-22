@@ -1,0 +1,52 @@
+name: RoleSetElevatedAction
+
+database: RobloxRoles
+table: RoleSetElevatedActions
+
+namespace: Roblox.Web.ElevatedActions.BLL
+dal_namespace: Roblox.Web.ElevatedActions.DAL
+
+version: 2
+
+generate_create_new: true
+
+id:
+  type: int
+
+properties:
+  - name: RoleSetID
+    description: Gets the id of the role set
+    type: int
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[RoleSets].[ID]"
+  - name: ElevatedActionID
+    description: Gets the id of the elevated action
+    type: int
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[ElevatedActions].[ID]"
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+  - name: Updated
+    type: DateTime
+    nullable: false
+    read_only: true
+
+methods:
+  - name: Get
+    type: Lookup
+    parameters:
+      - name: roleSetID
+        type: int
+      - name: elevatedActionID
+        type: int
+
+  - name: GetRoleSetElevatedActionsByRoleSetID
+    dal_name: GetRoleSetElevatedActionIDsByRoleSetID
+    type: GetCollection
+    parameters:
+      - name: roleSetID
+        type: int

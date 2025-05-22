@@ -1,0 +1,58 @@
+name: ApiClient
+
+database: RobloxServices
+table: ApiClients
+
+namespace: Roblox.Api.ControlPlane
+
+version: 2
+
+id:
+  type: int
+
+properties:
+  - name: ApiKey
+    description: Gets the key of the api client
+    type: Guid
+    nullable: false
+    read_only: false
+  - name: Note
+    description: Gets the note of the api client
+    type: string
+    nullable: false
+    read_only: false
+    length: 256
+  - name: StatusTypeID
+    description: Gets the status type of the api client
+    type: byte
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[StatusTypes].[ID]"
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: false
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: false
+
+methods:
+  - name: GetByApiKey
+    type: Lookup
+    parameters:
+      - name: apiKey
+        type: Guid
+        
+  - name: GetByNote
+    type: Lookup
+    parameters:
+      - name: note
+        type: string
+        length: 256
+
+  - name: GetTotalNumberOfApiClients
+    type: GetCount
+  
+  - name: GetAllPaged
+    type: GetCollectionPaged

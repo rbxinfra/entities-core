@@ -1,0 +1,53 @@
+name: GenderType
+
+database: RobloxUsers
+table: GenderTypes
+
+namespace: Roblox.Platform.Membership.Entities
+
+version: 2
+
+predefined:
+  method: GetOrCreate
+  
+  values:
+    - name: Unknown
+      properties:
+        - Value: "Unknown"
+    - name: Male
+      properties:
+        - Value: "Male"
+    - name: Female
+      properties:
+        - Value: "Female"
+      
+id:
+  type: byte
+
+properties:
+  - name: Value
+    description: Gets the name of the gender type
+    type: string
+    nullable: false
+    read_only: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: false
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: false
+
+methods:
+  - name: GetByValue
+    type: Lookup
+    parameters:
+      - name: value
+        type: string
+        
+  - name: GetOrCreate
+    type: GetOrCreate
+    parameters:
+      - name: value
+        type: string

@@ -1,0 +1,58 @@
+name: UserRoleSet
+
+database: RobloxRoles
+table: UserRoleSets
+
+namespace: Roblox.Platform.Membership.Entities
+
+version: 2
+
+id:
+  type: long
+
+properties:
+  - name: UserID
+    description: Gets the ID of the user
+    type: long
+    nullable: false
+    read_only: false
+  - name: RoleSetID
+    description: Gets the ID of the role set
+    type: int
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[RoleSets].[ID]"
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+  - name: Updated
+    type: DateTime
+    nullable: false
+    read_only: true
+
+methods:    
+  - name: GetByUserIDAndRoleSetID
+    type: Lookup
+    parameters:
+      - name: userID
+        type: long
+      - name: roleSetID
+        type: int
+
+  - name: GetAllUserRoleSetsPaged
+    type: GetCollectionPaged
+  - name: GetTotalNumberOfUserRoleSets
+    type: GetCount
+    
+  - name: GetUserRoleSetsByUserIDPaged
+    type: GetCollectionPaged
+    parameters:
+      - name: userID
+        type: long
+        
+  - name: GetUserRoleSetsByRoleSetIDPaged
+    type: GetCollectionPaged
+    parameters:
+      - name: roleSetID
+        type: int

@@ -1,0 +1,148 @@
+name: UserEmailAddress
+
+database: RobloxEmailAddresses
+table: UserEmailAddresses
+
+namespace: Roblox.Platform.Email.User.Entities
+remote_cacheable: {}
+
+version: 2
+
+id:
+  type: long
+
+properties:
+  - name: UserID
+    description: The ID of the user this email belongs to.
+    type: long
+    read_only: false
+  - name: EmailAddressID
+    description: The ID of the email.
+    type: int
+    read_only: false
+    foreign_key: "[dbo].[EmailAddresses].[ID]"
+  - name: IsVerified
+    description: Determines if the email is verified
+    type: bool
+    nullable: false
+    read_only: false
+  - name: IsValid
+    description: Whether this email address is valid
+    type: bool
+    nullable: false
+    read_only: false
+  - name: Newsletter
+    description: Whether this email address is part of the newsletter
+    type: bool
+    nullable: false
+    read_only: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: true
+  - name: Updated
+    type: DateTime
+    nullable: true
+    read_only: true
+
+methods:
+  - name: GetTotalNumberOfValidUserEmailAddresses
+    stored_procedure: GetTotalNumberOfValidUserEmailAddressesByUserID
+    type: GetCount
+    passive_properties:
+      - name: IsValid
+        value: true
+    parameters:
+      - name: userID
+        type: long
+        
+  - name: GetTotalNumberOfUsersByValidEmailAddressID
+    stored_procedure: GetTotalNumberOfUsersByValidEmailAddressID
+    type: GetCount
+    passive_properties:
+      - name: IsValid
+        value: true
+    parameters:
+      - name: emailAddressID
+        type: int
+        
+  - name: GetValidUserEmailAddresses
+    dal_name: GetValidUserEmailAddressIDs
+    stored_procedure: GetValidUserEmailAddressIDsByEmailAddressID
+    type: GetCollection
+    passive_properties:
+      - name: IsValid
+        value: true
+    parameters:
+      - name: emailAddressID
+        type: int
+        
+  - name: GetValidUserEmailAddressesPaged
+    dal_name: GetValidUserEmailAddressIDsPaged
+    stored_procedure: GetValidUserEmailAddressIDsByUserID_Paged
+    type: GetCollectionPaged
+    passive_properties:
+      - name: IsValid
+        value: true
+    parameters:
+      - name: userID
+        type: long
+        
+  - name: GetValidUserEmailAddressesByIsVerifiedPaged
+    dal_name: GetValidUserEmailAddressIDsByIsVerifiedPaged
+    stored_procedure: GetValidUserEmailAddressIDsByUserIDAndIsVerified_Paged
+    type: GetCollectionPaged
+    passive_properties:
+      - name: IsValid
+        value: true
+    parameters:
+      - name: userID
+        type: long
+      - name: isVerified
+        type: bool
+        
+  - name: GetUserEmailAddressesPaged
+    dal_name: GetUserEmailAddressIDsPaged
+    stored_procedure: GetUserEmailAddressIDsByUserID_Paged
+    type: GetCollectionPaged
+    parameters:
+      - name: userID
+        type: long
+        
+  - name: GetUserEmailAddressesByEmailAddressID
+    dal_name: GetUserEmailAddressIDsByEmailAddressID
+    type: GetCollectionExclusive
+    parameters:
+      - name: emailAddressID
+        type: int
+        
+  - name: GetTotalNumberOfUserEmailAddressesByEmailAddressID
+    dal_name: GetTotalNumberOfUserEmailAddressIDsByEmailAddressID
+    type: GetCount
+    parameters:
+      - name: emailAddressID
+        type: int
+        
+  - name: GetUserEmailAddressesByEmailAddressIDAndIsValid
+    dal_name: GetUserEmailAddressIDsByEmailAddressIDAndIsValid
+    type: GetCollectionExclusive
+    parameters:
+      - name: emailAddressID
+        type: int
+      - name: isValid
+        type: bool
+        
+  - name: GetUserEmailAddressesByEmailAddressIDIsVerifiedAndIsValid
+    dal_name: GetUserEmailAddressIDsByEmailAddressIDIsVerifiedAndIsValid
+    stored_procedure: GetUserEmailAddressIDsByEmailAddressIDIsVerifiedAndIsValid
+    type: GetCollectionExclusive
+    parameters:
+      - name: emailAddressID
+        type: int
+      - name: isVerified
+        type: bool
+      - name: isValid
+        type: bool
+
+  - name: MultiGet
+    type: MultiGet
