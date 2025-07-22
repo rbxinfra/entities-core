@@ -13,9 +13,6 @@ id:
 
 properties:
   - name: Address
-    description: Gets the address of the IP address
-    type: int
-  - name: Value
     description: Gets the value of IP address
     type: string
     nullable: false
