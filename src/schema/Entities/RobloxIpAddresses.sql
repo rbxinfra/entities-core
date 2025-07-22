@@ -127,8 +127,7 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[IP
 BEGIN
 CREATE TABLE [dbo].[IPAddresses](
 	[ID] [bigint] IDENTITY(1,1) NOT FOR REPLICATION NOT NULL,
-    [Address] [int] NOT NULL,
-    [Value] [varchar](15) NOT NULL,
+    [Address] [varchar](15) NOT NULL,
     [State] [tinyint] NOT NULL,
     [Expiration] [datetime] NULL,
     [Created] [datetime] NOT NULL,
@@ -205,8 +204,7 @@ GO
 ALTER PROCEDURE [dbo].[IPAddresses_InsertIPAddress]
 (
 	@ID [bigint] OUTPUT,
-    @Address [int],
-    @Value [varchar](15),
+    @Address [varchar](15),
     @State [tinyint],
     @Expiration [datetime] NULL,
     @Created [datetime],
@@ -220,7 +218,6 @@ INSERT INTO
 	[IPAddresses]
 (
 [Address],
-[Value],
 [State],
 [Expiration],
 [Created],
@@ -229,7 +226,6 @@ INSERT INTO
 VALUES
 (
 @Address,
-@Value,
 @State,
 @Expiration,
 @Created,
@@ -260,8 +256,7 @@ GO
 ALTER PROCEDURE [dbo].[IPAddresses_UpdateIPAddressByID]
 (
     @ID [bigint],
-    @Address [int],
-    @Value [varchar](15),
+    @Address [varchar](15),
     @State [tinyint],
     @Expiration [datetime] NULL,
     @Created [datetime],
@@ -275,7 +270,6 @@ UPDATE
     [IPAddresses]
 SET
 [Address] = @Address,
-[Value] = @Value,
 [State] = @State,
 [Expiration] = @Expiration,
 [Created] = @Created,
@@ -345,7 +339,6 @@ SET NOCOUNT ON
 SELECT
     [ID],
     [Address]
-    ,[Value]
     ,[State]
     ,[Expiration]
     ,[Created]
@@ -362,9 +355,9 @@ RETURN
 GO
 
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[IPAddresses_GetIPAddressByValue]') AND type in (N'P', N'PC'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[IPAddresses_GetIPAddressByAddress]') AND type in (N'P', N'PC'))
 BEGIN
-	EXEC('CREATE PROCEDURE [dbo].[IPAddresses_GetIPAddressByValue] AS BEGIN SET NOCOUNT ON; END')
+	EXEC('CREATE PROCEDURE [dbo].[IPAddresses_GetIPAddressByAddress] AS BEGIN SET NOCOUNT ON; END')
 END
 
 SET ANSI_NULLS ON
@@ -373,9 +366,9 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROCEDURE [dbo].[IPAddresses_GetIPAddressByValue]
+ALTER PROCEDURE [dbo].[IPAddresses_GetIPAddressByAddress]
 (
-    @Value [varchar](15)
+    @Address [varchar](15)
 )
 AS
 
@@ -384,7 +377,6 @@ SET NOCOUNT ON
 SELECT
     [ID]
     ,[Address]
-    ,[Value]
     ,[State]
     ,[Expiration]
     ,[Created]
@@ -392,7 +384,7 @@ SELECT
 FROM
 	[IPAddresses]
 WHERE
-	([Value] = @Value)
+	([Address] = @Address)
 
 SET NOCOUNT OFF
 
@@ -414,8 +406,7 @@ GO
 ALTER PROCEDURE [dbo].[IPAddresses_GetOrCreateIPAddress]
 (
     @CreatedNewEntity [bit] OUTPUT,
-    @Address [int],
-    @Value [varchar](15)
+    @Address [varchar](15)
 )
 AS
 
@@ -428,7 +419,7 @@ SELECT
 FROM
 	[IPAddresses]
 WHERE
-	([Address] = @Address) AND ([Value] = @Value)
+	([Address] = @Address)
 
 IF (@ID IS NULL)
 BEGIN
@@ -438,14 +429,12 @@ BEGIN
 	[IPAddresses]
     (
         [Address],
-        [Value],
         [Created], 
         [Updated]
     )
     VALUES
     (
         @Address,
-        @Value,
         @Created,
         @Updated
     )
@@ -460,7 +449,6 @@ END
 SELECT
     [ID]
     ,[Address]
-    ,[Value]
     ,[State]
     ,[Expiration]
     ,[Created]
@@ -498,7 +486,6 @@ SET NOCOUNT ON
 SELECT
     [ID]
     ,[Address]
-    ,[Value]
     ,[State]
     ,[Expiration]
     ,[Created]
