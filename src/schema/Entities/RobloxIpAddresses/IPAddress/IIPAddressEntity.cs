@@ -7,14 +7,9 @@ using Roblox.Entities;
 internal interface IIPAddressEntity : IUpdateableEntity<long>
 {
     /// <summary>
-    /// Gets the address of the IP address
-    /// </summary>
-    int Address { get; set; }
-
-    /// <summary>
     /// Gets the value of IP address
     /// </summary>
-    string Value { get; set; }
+    string Address { get; set; }
 
     /// <summary>
     /// Gets the state of the IP address

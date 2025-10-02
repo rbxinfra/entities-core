@@ -214,7 +214,7 @@ internal class UserIPAddressV2 : IRobloxEntity<long, UserIPAddressV2DAL>, IRemot
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: true, idLookupsAreCacheable: true, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(UserIPAddressV2).ToString(),
-        true,
+        true
     );
 
     /// <inheritdoc cref="ICacheableObject.BuildEntityIDLookups"/>

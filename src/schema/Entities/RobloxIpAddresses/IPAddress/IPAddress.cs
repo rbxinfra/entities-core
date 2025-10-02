@@ -19,15 +19,10 @@ internal class IPAddress : IRobloxEntity<long, IPAddressDAL>, IRemoteCacheableOb
         get { return _EntityDAL.ID; }
     }
 
-    public int Address
+    public string Address
     {
         get { return _EntityDAL.Address; }
-    }
-
-    public string Value
-    {
-        get { return _EntityDAL.Value; }
-        set { _EntityDAL.Value = value; }
+        set { _EntityDAL.Address = value; }
     }
 
     public byte State
@@ -159,7 +154,7 @@ internal class IPAddress : IRobloxEntity<long, IPAddressDAL>, IRemoteCacheableOb
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: true, idLookupsAreCacheable: true, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(IPAddress).ToString(),
-        true,
+        true
     );
 
     /// <inheritdoc cref="ICacheableObject.BuildEntityIDLookups"/>

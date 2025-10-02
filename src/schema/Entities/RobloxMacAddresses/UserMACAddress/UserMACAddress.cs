@@ -183,7 +183,7 @@ internal class UserMACAddress : IRobloxEntity<long, UserMACAddressDAL>, IRemoteC
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: true, idLookupsAreCacheable: true, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(UserMACAddress).ToString(),
-        true,
+        true
     );
 
     /// <inheritdoc cref="ICacheableObject.BuildEntityIDLookups"/>

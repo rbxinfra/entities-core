@@ -9,10 +9,7 @@ internal class IPAddressEntity : IIPAddressEntity
     /// <inheritdoc cref="IEntity{TId}.Id" />
     public long Id { get; set; }
     /// <inheritdoc cref="IIPAddressEntity.Address" />
-    public int Address { get; set; }
-
-    /// <inheritdoc cref="IIPAddressEntity.Value" />
-    public string Value { get; set; }
+    public string Address { get; set; }
 
     /// <inheritdoc cref="IIPAddressEntity.State" />
     public byte State { get; set; }
@@ -30,7 +27,7 @@ internal class IPAddressEntity : IIPAddressEntity
     public void Update()
     {
         var cal = IPAddress.Get(Id) ?? throw new InvalidOperationException("Attempted update on unpersisted entity.");
-        cal.Value = Value;
+        cal.Address = Address;
         cal.State = State;
         cal.Expiration = Expiration;
 

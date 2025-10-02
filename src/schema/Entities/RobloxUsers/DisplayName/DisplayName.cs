@@ -120,7 +120,7 @@ internal class DisplayName : IRobloxEntity<long, DisplayNameDAL>, IRemoteCacheab
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: true, idLookupsAreCacheable: true, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(DisplayName).ToString(),
-        true,
+        true
     );
 
     /// <inheritdoc cref="ICacheableObject.BuildEntityIDLookups"/>

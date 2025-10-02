@@ -357,9 +357,9 @@ RETURN
 GO
 
 
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[IPAddresses_GetIPAddressByAddress]') AND type in (N'P', N'PC'))
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[IPAddresses_GetIPAddressByValue]') AND type in (N'P', N'PC'))
 BEGIN
-	EXEC('CREATE PROCEDURE [dbo].[IPAddresses_GetIPAddressByAddress] AS BEGIN SET NOCOUNT ON; END')
+	EXEC('CREATE PROCEDURE [dbo].[IPAddresses_GetIPAddressByValue] AS BEGIN SET NOCOUNT ON; END')
 END
 
 SET ANSI_NULLS ON
@@ -368,9 +368,9 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-ALTER PROCEDURE [dbo].[IPAddresses_GetIPAddressByAddress]
+ALTER PROCEDURE [dbo].[IPAddresses_GetIPAddressByValue]
 (
-    @Address [varchar](15)
+    @Value [varchar](15)
 )
 AS
 
@@ -386,7 +386,7 @@ SELECT
 FROM
 	[IPAddresses]
 WHERE
-	([Address] = @Address)
+	([Value] = @Value)
 
 SET NOCOUNT OFF
 
@@ -408,7 +408,8 @@ GO
 ALTER PROCEDURE [dbo].[IPAddresses_GetOrCreateIPAddress]
 (
     @CreatedNewEntity [bit] OUTPUT,
-    @Address [varchar](15)
+    @Address [int],
+    @Value [varchar](15)
 )
 AS
 
@@ -421,7 +422,7 @@ SELECT
 FROM
 	[IPAddresses]
 WHERE
-	([Address] = @Address)
+	([Address] = @Address) AND ([Value] = @Value)
 
 IF (@ID IS NULL)
 BEGIN
@@ -431,12 +432,14 @@ BEGIN
 	[IPAddresses]
     (
         [Address],
+        [Value],
         [Created], 
         [Updated]
     )
     VALUES
     (
         @Address,
+        @Value,
         @Created,
         @Updated
     )

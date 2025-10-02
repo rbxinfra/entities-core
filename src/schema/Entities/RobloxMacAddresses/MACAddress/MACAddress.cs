@@ -142,7 +142,7 @@ internal class MACAddress : IRobloxEntity<long, MACAddressDAL>, IRemoteCacheable
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: true, idLookupsAreCacheable: true, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(MACAddress).ToString(),
-        true,
+        true
     );
 
     /// <inheritdoc cref="ICacheableObject.BuildEntityIDLookups"/>

@@ -13,8 +13,7 @@ internal class IPAddressDAL
     private const Roblox.MssqlDatabases.RobloxDatabase _Database = global::Roblox.MssqlDatabases.RobloxDatabase.RobloxIpAddresses;
 
     public long ID { get; set; }
-    public int Address { get; set; }
-    public string Value { get; set; }
+    public string Address { get; set; }
     public byte State { get; set; }
     public DateTime? Expiration { get; set; }
     public DateTime Created { get; set; }
@@ -24,8 +23,7 @@ internal class IPAddressDAL
     {
         var dal = new IPAddressDAL();
         dal.ID = (long)record["ID"];
-        dal.Address = (int)record["Address"];
-        dal.Value = (string)record["Value"];
+        dal.Address = (string)record["Address"];
         dal.State = (byte)record["State"];
         dal.Expiration = record["Expiration"] != null ? (DateTime)record["Expiration"] : default(DateTime);
         dal.Created = (DateTime)record["Created"];
@@ -45,7 +43,6 @@ internal class IPAddressDAL
         {
             new SqlParameter("@ID", ID) { Direction = ParameterDirection.Output },
             new SqlParameter("@Address", Address),
-            new SqlParameter("@Value", Value),
             new SqlParameter("@State", State),
             new SqlParameter("@Expiration", Expiration == null ? DBNull.Value : (object)Expiration),
             new SqlParameter("@Created", Created),
@@ -61,7 +58,6 @@ internal class IPAddressDAL
         {
             new SqlParameter("@ID", ID),
             new SqlParameter("@Address", Address),
-            new SqlParameter("@Value", Value),
             new SqlParameter("@State", State),
             new SqlParameter("@Expiration", Expiration == null ? DBNull.Value : (object)Expiration),
             new SqlParameter("@Created", Created),
