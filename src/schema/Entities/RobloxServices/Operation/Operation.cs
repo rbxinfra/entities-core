@@ -128,7 +128,7 @@ internal class Operation : IRobloxEntity<int, OperationDAL>
             {
                 return OperationDAL.GetOperationsByServiceID(
                     serviceID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },

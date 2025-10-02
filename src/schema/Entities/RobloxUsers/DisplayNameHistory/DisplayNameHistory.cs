@@ -112,7 +112,7 @@ internal class DisplayNameHistory : IRobloxEntity<long, DisplayNameHistoryDAL>, 
             {
                 return DisplayNameHistoryDAL.GetDisplayNameHistoryIDsByUserIDPaged(
                     userID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -150,7 +150,7 @@ internal class DisplayNameHistory : IRobloxEntity<long, DisplayNameHistoryDAL>, 
             {
                 return DisplayNameHistoryDAL.GetDisplayNameHistoryIDsByDisplayNameIDPaged(
                     displayNameID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -195,7 +195,7 @@ internal class DisplayNameHistory : IRobloxEntity<long, DisplayNameHistoryDAL>, 
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: true, idLookupsAreCacheable: true, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(DisplayNameHistory).ToString(),
-        true
+        true,
     );
 
     /// <inheritdoc cref="ICacheableObject.BuildEntityIDLookups"/>

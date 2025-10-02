@@ -112,7 +112,7 @@ internal class UserNameHistory : IRobloxEntity<long, UserNameHistoryDAL>, IRemot
             {
                 return UserNameHistoryDAL.GetUserNameHistoryIDsByUserIDPaged(
                     userID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -150,7 +150,7 @@ internal class UserNameHistory : IRobloxEntity<long, UserNameHistoryDAL>, IRemot
             {
                 return UserNameHistoryDAL.GetUserNameHistoryIDsByNamePaged(
                     name,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -195,7 +195,7 @@ internal class UserNameHistory : IRobloxEntity<long, UserNameHistoryDAL>, IRemot
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: true, idLookupsAreCacheable: true, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(UserNameHistory).ToString(),
-        true
+        true,
     );
 
     /// <inheritdoc cref="ICacheableObject.BuildEntityIDLookups"/>

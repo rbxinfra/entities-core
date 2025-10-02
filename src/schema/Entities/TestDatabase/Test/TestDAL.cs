@@ -346,8 +346,7 @@ internal class TestDAL
 
         var dbInfo = new DbInfo(
             ConnectionString,
-            "[dbo].[Tests_GetTotalNumberOfTestsByAccountIDAndName]"
-            ,
+            "[dbo].[Tests_GetTotalNumberOfTestsByAccountIDAndName]",
             queryParameters
         );
 

@@ -130,7 +130,7 @@ internal class ApiClient : IRobloxEntity<int, ApiClientDAL>
             () =>
             {
                 return ApiClientDAL.GetAllPaged(
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },

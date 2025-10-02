@@ -1,0 +1,163 @@
+name: Event
+
+database: RobloxSystemEvents
+table: Events
+
+namespace: Roblox.SystemEvents.Entities
+remote_cacheable:
+  memcached_group_setting: Roblox.SystemEvents.SystemEventsMigrationSettings.RemoteCacheableSettings
+  migration_group_setting: Roblox.SystemEvents.SystemEventsMigrationSettings.EventEntityMigrationCacheableSettings
+
+version: 2
+
+id:
+  type: long
+
+properties:
+  - name: EventTypeID
+    description: Gets the event type of the event
+    type: int
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[EventTypes].[ID]"
+  - name: EventSubtypeID
+    description: Gets the status type of the event
+    type: int
+    nullable: true
+    read_only: false
+    foreign_key: "[dbo].[EventSubtypes].[ID]" 
+  - name: EventSummaryID
+    description: Gets the event summary of the event
+    type: long
+    nullable: false
+    read_only: false
+    foreign_key: "[dbo].[EventSummaries].[ID]"
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: false
+
+generate_create_new: true
+
+methods:
+  - name: GetAllPaged
+    order_by:
+      - name: ID
+        direction: desc
+    type: GetCollectionPaged
+
+  - name: GetTotalNumberOfEvents
+    type: GetCount
+
+  - name: GetAllBetweenDatesPaged
+    stored_procedure: GetAllEventIDsBetweenDates_Paged
+    type: GetCollectionPaged
+    order_by:
+      - name: ID
+        direction: desc
+    parameters:
+      - name: startDate
+        type: DateTime
+        between_selector: Created
+      - name: endDate
+        type: DateTime
+        between_selector: Created
+
+  - name: GetTotalNumberOfEventsBetweenDates
+    stored_procedure: GetTotalNumberOfEventsBetweenDates
+    type: GetCount
+    parameters:
+      - name: startDate
+        type: DateTime
+        between_selector: Created
+      - name: endDate
+        type: DateTime
+        between_selector: Created
+
+  - name: GetEventsByEventSubtypeIDPaged
+    type: GetCollectionPaged
+    order_by:
+      - name: ID
+        direction: desc
+    parameters:
+      - name: eventSubtypeID
+        type: int
+
+  - name: GetTotalNumberOfEventsByEventSubtypeID
+    type: GetCount
+    parameters:
+      - name: eventSubtypeID
+        type: int
+
+  - name: GetEventsByEventSubtypeIDBetweenDatesPaged
+    stored_procedure: GetEventIDsByEventSubtypeIDBetweenDates_Paged
+    type: GetCollectionPaged
+    order_by:
+      - name: ID
+        direction: desc
+    parameters:
+      - name: eventSubtypeID
+        type: int
+      - name: startDate
+        type: DateTime
+        between_selector: Created
+      - name: endDate
+        type: DateTime
+        between_selector: Created
+
+  - name: GetTotalNumberOfEventsByEventSubtypeIDBetweenDates
+    stored_procedure: GetTotalNumberOfEventsBySubtypeIDBetweenDates
+    type: GetCount
+    parameters:
+      - name: eventSubtypeID
+        type: int
+      - name: startDate
+        type: DateTime
+        between_selector: Created
+      - name: endDate
+        type: DateTime
+        between_selector: Created
+
+  - name: GetEventsByEventTypeIDPaged
+    type: GetCollectionPaged
+    order_by:
+      - name: ID
+        direction: desc
+    parameters:
+      - name: eventTypeID
+        type: int
+
+  - name: GetTotalNumberOfEventsByEventTypeID
+    type: GetCount
+    parameters:
+      - name: eventTypeID
+        type: int
+
+  - name: GetEventsByEventTypeIDBetweenDatesPaged
+    stored_procedure: GetEventIDsByEventTypeIDBetweenDates_Paged
+    type: GetCollectionPaged
+    order_by:
+      - name: ID
+        direction: desc
+    parameters:
+      - name: eventTypeID
+        type: int
+      - name: startDate
+        type: DateTime
+        between_selector: Created
+      - name: endDate
+        type: DateTime
+        between_selector: Created
+
+  - name: GetTotalNumberOfEventsByEventTypeIDBetweenDates
+    stored_procedure: GetTotalNumberOfEventsByEventTypeIDBetweenDates
+    type: GetCount
+    parameters:
+      - name: eventTypeID
+        type: int
+      - name: startDate
+        type: DateTime
+        between_selector: Created
+      - name: endDate
+        type: DateTime
+        between_selector: Created

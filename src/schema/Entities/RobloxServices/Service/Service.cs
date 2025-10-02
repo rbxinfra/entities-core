@@ -115,7 +115,7 @@ internal class Service : IRobloxEntity<int, ServiceDAL>
             () =>
             {
                 return ServiceDAL.GetAllPaged(
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },

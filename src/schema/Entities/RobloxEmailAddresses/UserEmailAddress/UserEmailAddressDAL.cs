@@ -195,28 +195,6 @@ internal class UserEmailAddressDAL
         );
     }
 
-    public static ICollection<long> GetUserEmailAddressIDsByEmailAddressID(int emailAddressID, int count, long exclusiveStartId)
-    {
-        if (emailAddressID == default(int)) 
-            throw new ArgumentException("Parameter 'emailAddressID' cannot be null, empty or the default value.");
-        if (count < 1)
-            throw new ApplicationException("Required value not specified: Count.");
-        if (exclusiveStartId < 0)
-            throw new ApplicationException("Parameter 'ExclusiveStartID' cannot be negative.");
-
-        var queryParameters = new SqlParameter[]
-        {
-            new SqlParameter("@EmailAddressID", emailAddressID),
-            new SqlParameter("@Count", count),
-            new SqlParameter("@ExclusiveStartID", exclusiveStartId),
-        };
-
-        return _Database.GetIDCollection<long>(
-            "UserEmailAddresses_GetUserEmailAddressIDsByEmailAddressID",
-            queryParameters
-        );
-    }
-
     public static int GetTotalNumberOfUserEmailAddressIDsByEmailAddressID(int emailAddressID)
     {
         var queryParameters = new SqlParameter[]
@@ -227,59 +205,6 @@ internal class UserEmailAddressDAL
         return _Database.GetCount<int>(
             "UserEmailAddresses_GetTotalNumberOfUserEmailAddresssByEmailAddressID",
             queryParameters: queryParameters
-        );
-    }
-
-    public static ICollection<long> GetUserEmailAddressIDsByEmailAddressIDAndIsValid(int emailAddressID, bool isValid, int count, long exclusiveStartId)
-    {
-        if (emailAddressID == default(int)) 
-            throw new ArgumentException("Parameter 'emailAddressID' cannot be null, empty or the default value.");
-        if (isValid == default(bool)) 
-            throw new ArgumentException("Parameter 'isValid' cannot be null, empty or the default value.");
-        if (count < 1)
-            throw new ApplicationException("Required value not specified: Count.");
-        if (exclusiveStartId < 0)
-            throw new ApplicationException("Parameter 'ExclusiveStartID' cannot be negative.");
-
-        var queryParameters = new SqlParameter[]
-        {
-            new SqlParameter("@EmailAddressID", emailAddressID),
-            new SqlParameter("@IsValid", isValid),
-            new SqlParameter("@Count", count),
-            new SqlParameter("@ExclusiveStartID", exclusiveStartId),
-        };
-
-        return _Database.GetIDCollection<long>(
-            "UserEmailAddresses_GetUserEmailAddressIDsByEmailAddressIDAndIsValid",
-            queryParameters
-        );
-    }
-
-    public static ICollection<long> GetUserEmailAddressIDsByEmailAddressIDIsVerifiedAndIsValid(int emailAddressID, bool isVerified, bool isValid, int count, long exclusiveStartId)
-    {
-        if (emailAddressID == default(int)) 
-            throw new ArgumentException("Parameter 'emailAddressID' cannot be null, empty or the default value.");
-        if (isVerified == default(bool)) 
-            throw new ArgumentException("Parameter 'isVerified' cannot be null, empty or the default value.");
-        if (isValid == default(bool)) 
-            throw new ArgumentException("Parameter 'isValid' cannot be null, empty or the default value.");
-        if (count < 1)
-            throw new ApplicationException("Required value not specified: Count.");
-        if (exclusiveStartId < 0)
-            throw new ApplicationException("Parameter 'ExclusiveStartID' cannot be negative.");
-
-        var queryParameters = new SqlParameter[]
-        {
-            new SqlParameter("@EmailAddressID", emailAddressID),
-            new SqlParameter("@IsVerified", isVerified),
-            new SqlParameter("@IsValid", isValid),
-            new SqlParameter("@Count", count),
-            new SqlParameter("@ExclusiveStartID", exclusiveStartId),
-        };
-
-        return _Database.GetIDCollection<long>(
-            "UserEmailAddresses_GetUserEmailAddressIDsByEmailAddressIDIsVerifiedAndIsValid",
-            queryParameters
         );
     }
 

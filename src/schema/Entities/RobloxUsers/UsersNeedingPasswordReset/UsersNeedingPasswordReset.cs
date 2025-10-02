@@ -148,7 +148,7 @@ internal class UsersNeedingPasswordReset : IRobloxEntity<long, UsersNeedingPassw
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: true, idLookupsAreCacheable: true, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(UsersNeedingPasswordReset).ToString(),
-        true
+        true,
     );
 
     /// <inheritdoc cref="ICacheableObject.BuildEntityIDLookups"/>

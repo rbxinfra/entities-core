@@ -138,6 +138,7 @@ CREATE TABLE [dbo].[AgentTypes](
 ON [PRIMARY]
 END
 
+
 /****** End AgentType ******/
 
 /****** Begin Agent ******/
@@ -165,6 +166,7 @@ REFERENCES [dbo].[AgentTypes] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Agents_AgentTypes_AgentTypeID]') AND parent_object_id = OBJECT_ID(N'[dbo].[Agents]'))
 ALTER TABLE [dbo].[Agents] CHECK CONSTRAINT [FK_Agents_AgentTypes_AgentTypeID]
 
+
 /****** End Agent ******/
 
 /****** Begin DisplayName ******/
@@ -183,6 +185,7 @@ CREATE TABLE [dbo].[DisplayNames](
 )
 ON [PRIMARY]
 END
+
 
 /****** End DisplayName ******/
 
@@ -203,6 +206,7 @@ CREATE TABLE [dbo].[UserStatuses](
 ON [PRIMARY]
 END
 
+
 /****** End UserStatus ******/
 
 /****** Begin GenderType ******/
@@ -221,6 +225,7 @@ CREATE TABLE [dbo].[GenderTypes](
 )
 ON [PRIMARY]
 END
+
 
 /****** End GenderType ******/
 
@@ -269,6 +274,7 @@ REFERENCES [dbo].[GenderTypes] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Users_GenderTypes_GenderTypeID]') AND parent_object_id = OBJECT_ID(N'[dbo].[Users]'))
 ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_Users_GenderTypes_GenderTypeID]
 
+
 /****** End User ******/
 
 /****** Begin DisplayNameHistory ******/
@@ -303,6 +309,7 @@ REFERENCES [dbo].[DisplayNames] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_DisplayNameHistory_DisplayNames_DisplayNameID]') AND parent_object_id = OBJECT_ID(N'[dbo].[DisplayNameHistory]'))
 ALTER TABLE [dbo].[DisplayNameHistory] CHECK CONSTRAINT [FK_DisplayNameHistory_DisplayNames_DisplayNameID]
 
+
 /****** End DisplayNameHistory ******/
 
 /****** Begin UserNameHistory ******/
@@ -329,6 +336,7 @@ WITH CHECK ADD CONSTRAINT [FK_UserNameHistory_Users_UserID] FOREIGN KEY ([UserID
 REFERENCES [dbo].[Users] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_UserNameHistory_Users_UserID]') AND parent_object_id = OBJECT_ID(N'[dbo].[UserNameHistory]'))
 ALTER TABLE [dbo].[UserNameHistory] CHECK CONSTRAINT [FK_UserNameHistory_Users_UserID]
+
 
 /****** End UserNameHistory ******/
 
@@ -358,6 +366,7 @@ REFERENCES [dbo].[Users] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_UserPasswordHashes_Users_UserID]') AND parent_object_id = OBJECT_ID(N'[dbo].[UserPasswordHashes]'))
 ALTER TABLE [dbo].[UserPasswordHashes] CHECK CONSTRAINT [FK_UserPasswordHashes_Users_UserID]
 
+
 /****** End UserPasswordHash ******/
 
 /****** Begin UsersNeedingPasswordReset ******/
@@ -383,6 +392,7 @@ WITH CHECK ADD CONSTRAINT [FK_UsersNeedingPasswordReset_Users_UserID] FOREIGN KE
 REFERENCES [dbo].[Users] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_UsersNeedingPasswordReset_Users_UserID]') AND parent_object_id = OBJECT_ID(N'[dbo].[UsersNeedingPasswordReset]'))
 ALTER TABLE [dbo].[UsersNeedingPasswordReset] CHECK CONSTRAINT [FK_UsersNeedingPasswordReset_Users_UserID]
+
 
 /****** End UsersNeedingPasswordReset ******/
 
@@ -2088,8 +2098,9 @@ FROM
 	[DisplayNameHistory]
 WHERE
 	([UserID] = @UserID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -2156,8 +2167,9 @@ FROM
 	[DisplayNameHistory]
 WHERE
 	([DisplayNameID] = @DisplayNameID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -2387,8 +2399,9 @@ FROM
 	[UserNameHistory]
 WHERE
 	([UserID] = @UserID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -2455,8 +2468,9 @@ FROM
 	[UserNameHistory]
 WHERE
 	([Name] = @Name)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -2724,8 +2738,9 @@ FROM
 	[UserPasswordHashes]
 WHERE
 	([UserID] = @UserID) AND ([IsValid] = 1)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 

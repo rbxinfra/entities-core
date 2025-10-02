@@ -154,7 +154,7 @@ internal class TestEnum : IRobloxEntity<byte, TestEnumDAL>, IRemoteCacheableObje
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: true, idLookupsAreCacheable: true, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(TestEnum).ToString(),
-        true
+        true,
     );
 
     /// <inheritdoc cref="ICacheableObject.BuildEntityIDLookups"/>

@@ -1,0 +1,52 @@
+name: EventSubtype
+
+database: RobloxSystemEvents
+table: EventSubtypes
+
+namespace: Roblox.SystemEvents.Entities
+remote_cacheable:
+  memcached_group_setting: Roblox.SystemEvents.SystemEventsMigrationSettings.RemoteCacheableSettings
+  migration_group_setting: Roblox.SystemEvents.SystemEventsMigrationSettings.EventSubtypeEntityMigrationCacheableSettings
+
+version: 2
+
+id:
+  type: int
+
+properties:
+  - name: Value
+    description: Gets the value of the event sub type
+    type: string
+    nullable: false
+    read_only: false
+    length: 64
+    is_unicode: false
+  - name: Created
+    type: DateTime
+    nullable: false
+    read_only: false
+  - name: Updated
+    type: DateTime
+    nullable: false
+    read_only: false
+
+methods:
+  - name: GetByValue
+    type: Lookup
+    parameters:
+      - name: value
+        type: string
+        length: 64
+        is_unicode: false
+
+  - name: MultiGet
+    type: MultiGet
+
+  - name: GetOrCreate
+    dal_name: GetOrCreateEventSubtype
+    stored_procedure: GetOrCreateEventSubtype
+    type: GetOrCreate
+    parameters:
+      - name: value
+        type: string
+

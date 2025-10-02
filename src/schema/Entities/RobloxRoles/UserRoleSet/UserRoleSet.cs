@@ -101,7 +101,7 @@ internal class UserRoleSet : IRobloxEntity<long, UserRoleSetDAL>
             () =>
             {
                 return UserRoleSetDAL.GetAllUserRoleSetsPaged(
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -136,7 +136,7 @@ internal class UserRoleSet : IRobloxEntity<long, UserRoleSetDAL>
             {
                 return UserRoleSetDAL.GetUserRoleSetsByUserIDPaged(
                     userID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -159,7 +159,7 @@ internal class UserRoleSet : IRobloxEntity<long, UserRoleSetDAL>
             {
                 return UserRoleSetDAL.GetUserRoleSetsByRoleSetIDPaged(
                     roleSetID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },

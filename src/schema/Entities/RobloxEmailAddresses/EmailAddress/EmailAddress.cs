@@ -143,7 +143,7 @@ internal class EmailAddress : IRobloxEntity<int, EmailAddressDAL>, IRemoteCachea
             () =>
             {
                 return EmailAddressDAL.GetBlacklistedEmailAddressIDsPaged(
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -197,7 +197,7 @@ internal class EmailAddress : IRobloxEntity<int, EmailAddressDAL>, IRemoteCachea
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: true, idLookupsAreCacheable: true, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(EmailAddress).ToString(),
-        true
+        true,
     );
 
     /// <inheritdoc cref="ICacheableObject.BuildEntityIDLookups"/>

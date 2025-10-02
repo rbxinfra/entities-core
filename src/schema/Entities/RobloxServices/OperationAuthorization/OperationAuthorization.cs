@@ -128,7 +128,7 @@ internal class OperationAuthorization : IRobloxEntity<int, OperationAuthorizatio
             {
                 return OperationAuthorizationDAL.GetOperationAuthorizationsByOperationID(
                     operationID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -166,7 +166,7 @@ internal class OperationAuthorization : IRobloxEntity<int, OperationAuthorizatio
             {
                 return OperationAuthorizationDAL.GetOperationAuthorizationsByApiClientID(
                     apiClientID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },

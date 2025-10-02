@@ -139,6 +139,7 @@ CREATE TABLE [dbo].[ElevatedActions](
 ON [PRIMARY]
 END
 
+
 /****** End ElevatedAction ******/
 
 /****** Begin RoleSet ******/
@@ -158,6 +159,7 @@ CREATE TABLE [dbo].[RoleSets](
 )
 ON [PRIMARY]
 END
+
 
 /****** End RoleSet ******/
 
@@ -198,6 +200,7 @@ REFERENCES [dbo].[RoleSets] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ElevatedActionLogs_RoleSets_RoleSetID]') AND parent_object_id = OBJECT_ID(N'[dbo].[ElevatedActionLogs]'))
 ALTER TABLE [dbo].[ElevatedActionLogs] CHECK CONSTRAINT [FK_ElevatedActionLogs_RoleSets_RoleSetID]
 
+
 /****** End ElevatedActionLog ******/
 
 /****** Begin RoleSetElevatedAction ******/
@@ -232,6 +235,7 @@ REFERENCES [dbo].[ElevatedActions] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_RoleSetElevatedActions_ElevatedActions_ElevatedActionID]') AND parent_object_id = OBJECT_ID(N'[dbo].[RoleSetElevatedActions]'))
 ALTER TABLE [dbo].[RoleSetElevatedActions] CHECK CONSTRAINT [FK_RoleSetElevatedActions_ElevatedActions_ElevatedActionID]
 
+
 /****** End RoleSetElevatedAction ******/
 
 /****** Begin UserRoleSet ******/
@@ -258,6 +262,7 @@ WITH CHECK ADD CONSTRAINT [FK_UserRoleSets_RoleSets_RoleSetID] FOREIGN KEY ([Rol
 REFERENCES [dbo].[RoleSets] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_UserRoleSets_RoleSets_RoleSetID]') AND parent_object_id = OBJECT_ID(N'[dbo].[UserRoleSets]'))
 ALTER TABLE [dbo].[UserRoleSets] CHECK CONSTRAINT [FK_UserRoleSets_RoleSets_RoleSetID]
+
 
 /****** End UserRoleSet ******/
 
@@ -1363,8 +1368,9 @@ SELECT
     [ID]
 FROM
 	[UserRoleSets]
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -1426,8 +1432,9 @@ FROM
 	[UserRoleSets]
 WHERE
 	([UserID] = @UserID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -1462,8 +1469,9 @@ FROM
 	[UserRoleSets]
 WHERE
 	([RoleSetID] = @RoleSetID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 

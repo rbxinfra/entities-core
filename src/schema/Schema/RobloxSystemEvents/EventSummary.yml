@@ -1,0 +1,64 @@
+name: EventSummary
+
+database: RobloxSystemEvents
+table: EventSummaries
+
+namespace: Roblox.SystemEvents.Entities
+remote_cacheable:
+  memcached_group_setting: Roblox.SystemEvents.SystemEventsMigrationSettings.RemoteCacheableSettings
+  migration_group_setting: Roblox.SystemEvents.SystemEventsMigrationSettings.EventSummaryEntityMigrationCacheableSettings
+
+version: 2
+
+id:
+  type: long
+
+properties:
+  - name: Hash
+    description: Gets the hash of the event summary
+    type: string
+    nullable: false
+    read_only: false
+    length: 64
+    is_unicode: false
+  - name: Value
+    description: Gets the value of the event summary
+    type: string
+    nullable: false
+    read_only: false
+    is_unicode: true
+  - name: Created # Timestamp
+    type: DateTime
+    nullable: false
+    read_only: false
+  - name: Updated
+    type: DateTime
+    nullable: false
+    read_only: false
+
+methods:
+  - name: GetByHash
+    type: Lookup
+    parameters:
+      - name: hash
+        type: string
+        length: 64
+        is_unicode: false
+
+  - name: MultiGet
+    type: MultiGet
+
+  - name: GetOrCreate
+    dal_name: GetOrCreateEventSummaryByHashAndValue
+    stored_procedure: GetOrCreateEventSummaryByHashAndValue
+    type: GetOrCreate
+    parameters:
+      - name: hash
+        type: string
+        length: 64
+        is_unicode: false
+      - name: value
+        type: string
+        is_unicode: true
+        is_for_lookup: true
+

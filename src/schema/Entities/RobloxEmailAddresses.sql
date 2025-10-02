@@ -142,6 +142,7 @@ CREATE TABLE [dbo].[EmailAddresses](
 ON [PRIMARY]
 END
 
+
 /****** End EmailAddress ******/
 
 /****** Begin UserEmailAddress ******/
@@ -171,6 +172,7 @@ WITH CHECK ADD CONSTRAINT [FK_UserEmailAddresses_EmailAddresses_EmailAddressID] 
 REFERENCES [dbo].[EmailAddresses] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_UserEmailAddresses_EmailAddresses_EmailAddressID]') AND parent_object_id = OBJECT_ID(N'[dbo].[UserEmailAddresses]'))
 ALTER TABLE [dbo].[UserEmailAddresses] CHECK CONSTRAINT [FK_UserEmailAddresses_EmailAddresses_EmailAddressID]
+
 
 /****** End UserEmailAddress ******/
 
@@ -522,8 +524,9 @@ FROM
 	[EmailAddresses]
 WHERE
 	([IsBlacklisted] = 1)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -903,8 +906,9 @@ FROM
 	[UserEmailAddresses]
 WHERE
 	([UserID] = @UserID) AND ([IsValid] = 1)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -940,8 +944,9 @@ FROM
 	[UserEmailAddresses]
 WHERE
 	([UserID] = @UserID) AND ([IsVerified] = @IsVerified) AND ([IsValid] = 1)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -976,55 +981,9 @@ FROM
 	[UserEmailAddresses]
 WHERE
 	([UserID] = @UserID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
-
-SET NOCOUNT OFF
-
-RETURN
-
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserEmailAddresses_GetUserEmailAddressIDsByEmailAddressID]') AND type in (N'P', N'PC'))
-BEGIN
-	EXEC('CREATE PROCEDURE [dbo].[UserEmailAddresses_GetUserEmailAddressIDsByEmailAddressID] AS BEGIN SET NOCOUNT ON; END')
-END
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-ALTER PROCEDURE [dbo].[UserEmailAddresses_GetUserEmailAddressIDsByEmailAddressID]
-(
-    @EmailAddressID [int],
-    @Count [int],
-    @ExclusiveStartID [bigint] NOT NULL
-)
-AS
-
-SET NOCOUNT ON
-
-DECLARE @ExclusiveStartIDOffset int
-SELECT
-    @ExclusiveStartIDOffset = ROW_NUMBER() OVER (ORDER BY [ID])
-FROM
-    [UserEmailAddresses]
-WHERE
-    ([ID] = @ExclusiveStartID) AND ([EmailAddressID] = @EmailAddressID)
 ORDER BY
-    [ID]
-
-SELECT
-    [ID]
-FROM
-	[UserEmailAddresses]
-WHERE
-	([EmailAddressID] = @EmailAddressID)
-ORDER BY
-    [ID]
-OFFSET @ExclusiveStartIDOffset ROWS FETCH NEXT @Count ROWS ONLY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -1057,103 +1016,6 @@ FROM
 	[UserEmailAddresses]
 WHERE
 	([EmailAddressID] = @EmailAddressID)
-
-SET NOCOUNT OFF
-
-RETURN
-
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserEmailAddresses_GetUserEmailAddressIDsByEmailAddressIDAndIsValid]') AND type in (N'P', N'PC'))
-BEGIN
-	EXEC('CREATE PROCEDURE [dbo].[UserEmailAddresses_GetUserEmailAddressIDsByEmailAddressIDAndIsValid] AS BEGIN SET NOCOUNT ON; END')
-END
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-ALTER PROCEDURE [dbo].[UserEmailAddresses_GetUserEmailAddressIDsByEmailAddressIDAndIsValid]
-(
-    @EmailAddressID [int],
-    @IsValid [bit],
-    @Count [int],
-    @ExclusiveStartID [bigint] NOT NULL
-)
-AS
-
-SET NOCOUNT ON
-
-DECLARE @ExclusiveStartIDOffset int
-SELECT
-    @ExclusiveStartIDOffset = ROW_NUMBER() OVER (ORDER BY [ID])
-FROM
-    [UserEmailAddresses]
-WHERE
-    ([ID] = @ExclusiveStartID) AND ([EmailAddressID] = @EmailAddressID) AND ([IsValid] = @IsValid)
-ORDER BY
-    [ID]
-
-SELECT
-    [ID]
-FROM
-	[UserEmailAddresses]
-WHERE
-	([EmailAddressID] = @EmailAddressID) AND ([IsValid] = @IsValid)
-ORDER BY
-    [ID]
-OFFSET @ExclusiveStartIDOffset ROWS FETCH NEXT @Count ROWS ONLY
-
-SET NOCOUNT OFF
-
-RETURN
-
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserEmailAddresses_GetUserEmailAddressIDsByEmailAddressIDIsVerifiedAndIsValid]') AND type in (N'P', N'PC'))
-BEGIN
-	EXEC('CREATE PROCEDURE [dbo].[UserEmailAddresses_GetUserEmailAddressIDsByEmailAddressIDIsVerifiedAndIsValid] AS BEGIN SET NOCOUNT ON; END')
-END
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-ALTER PROCEDURE [dbo].[UserEmailAddresses_GetUserEmailAddressIDsByEmailAddressIDIsVerifiedAndIsValid]
-(
-    @EmailAddressID [int],
-    @IsVerified [bit],
-    @IsValid [bit],
-    @Count [int],
-    @ExclusiveStartID [bigint] NOT NULL
-)
-AS
-
-SET NOCOUNT ON
-
-DECLARE @ExclusiveStartIDOffset int
-SELECT
-    @ExclusiveStartIDOffset = ROW_NUMBER() OVER (ORDER BY [ID])
-FROM
-    [UserEmailAddresses]
-WHERE
-    ([ID] = @ExclusiveStartID) AND ([EmailAddressID] = @EmailAddressID) AND ([IsVerified] = @IsVerified) AND ([IsValid] = @IsValid)
-ORDER BY
-    [ID]
-
-SELECT
-    [ID]
-FROM
-	[UserEmailAddresses]
-WHERE
-	([EmailAddressID] = @EmailAddressID) AND ([IsVerified] = @IsVerified) AND ([IsValid] = @IsValid)
-ORDER BY
-    [ID]
-OFFSET @ExclusiveStartIDOffset ROWS FETCH NEXT @Count ROWS ONLY
 
 SET NOCOUNT OFF
 

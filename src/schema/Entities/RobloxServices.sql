@@ -3,7 +3,24 @@ GO
 
 IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = N'RobloxServices')
 BEGIN
-CREATE DATABASE [RobloxServices]
+CREATE DATABASE [RobloxServices] ON  PRIMARY
+( NAME = N'RobloxServices', FILENAME = N'/data/RobloxServices/RobloxServices.mdf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices2', FILENAME = N'/data/RobloxServices/RobloxServices2.mdf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices3', FILENAME = N'/data/RobloxServices/RobloxServices3.mdf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices4', FILENAME = N'/data/RobloxServices/RobloxServices4.mdf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices5', FILENAME = N'/data/RobloxServices/RobloxServices5.mdf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices6', FILENAME = N'/data/RobloxServices/RobloxServices6.mdf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices7', FILENAME = N'/data/RobloxServices/RobloxServices7.mdf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices8', FILENAME = N'/data/RobloxServices/RobloxServices8.mdf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB )
+ LOG ON
+( NAME = N'RobloxServices_log', FILENAME = N'/logs/RobloxServices/RobloxServices_log.ldf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices2_log', FILENAME = N'/logs/RobloxServices/RobloxServices2_log.ldf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices3_log', FILENAME = N'/logs/RobloxServices/RobloxServices3_log.ldf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices4_log', FILENAME = N'/logs/RobloxServices/RobloxServices4_log.ldf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices5_log', FILENAME = N'/logs/RobloxServices/RobloxServices5_log.ldf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices6_log', FILENAME = N'/logs/RobloxServices/RobloxServices6_log.ldf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices7_log', FILENAME = N'/logs/RobloxServices/RobloxServices7_log.ldf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB ),
+( NAME = N'RobloxServices8_log', FILENAME = N'/logs/RobloxServices/RobloxServices8_log.ldf' , SIZE = 5120KB, MAXSIZE = 10MB, FILEGROWTH = 1024KB )
 END
 GO
 
@@ -121,6 +138,7 @@ CREATE TABLE [dbo].[StatusTypes](
 ON [PRIMARY]
 END
 
+
 /****** End StatusType ******/
 
 /****** Begin ApiClient ******/
@@ -149,6 +167,7 @@ REFERENCES [dbo].[StatusTypes] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ApiClients_StatusTypes_StatusTypeID]') AND parent_object_id = OBJECT_ID(N'[dbo].[ApiClients]'))
 ALTER TABLE [dbo].[ApiClients] CHECK CONSTRAINT [FK_ApiClients_StatusTypes_StatusTypeID]
 
+
 /****** End ApiClient ******/
 
 /****** Begin AuthorizationType ******/
@@ -167,6 +186,7 @@ CREATE TABLE [dbo].[AuthorizationTypes](
 )
 ON [PRIMARY]
 END
+
 
 /****** End AuthorizationType ******/
 
@@ -194,6 +214,7 @@ WITH CHECK ADD CONSTRAINT [FK_Services_StatusTypes_StatusTypeID] FOREIGN KEY ([S
 REFERENCES [dbo].[StatusTypes] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Services_StatusTypes_StatusTypeID]') AND parent_object_id = OBJECT_ID(N'[dbo].[Services]'))
 ALTER TABLE [dbo].[Services] CHECK CONSTRAINT [FK_Services_StatusTypes_StatusTypeID]
+
 
 /****** End Service ******/
 
@@ -229,6 +250,7 @@ WITH CHECK ADD CONSTRAINT [FK_Operations_StatusTypes_StatusTypeID] FOREIGN KEY (
 REFERENCES [dbo].[StatusTypes] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Operations_StatusTypes_StatusTypeID]') AND parent_object_id = OBJECT_ID(N'[dbo].[Operations]'))
 ALTER TABLE [dbo].[Operations] CHECK CONSTRAINT [FK_Operations_StatusTypes_StatusTypeID]
+
 
 /****** End Operation ******/
 
@@ -272,6 +294,7 @@ REFERENCES [dbo].[AuthorizationTypes] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_OperationAuthorizations_AuthorizationTypes_AuthorizationTypeID]') AND parent_object_id = OBJECT_ID(N'[dbo].[OperationAuthorizations]'))
 ALTER TABLE [dbo].[OperationAuthorizations] CHECK CONSTRAINT [FK_OperationAuthorizations_AuthorizationTypes_AuthorizationTypeID]
 
+
 /****** End OperationAuthorization ******/
 
 /****** Begin ServiceAuthorization ******/
@@ -313,6 +336,7 @@ WITH CHECK ADD CONSTRAINT [FK_ServiceAuthorizations_AuthorizationTypes_Authoriza
 REFERENCES [dbo].[AuthorizationTypes] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_ServiceAuthorizations_AuthorizationTypes_AuthorizationTypeID]') AND parent_object_id = OBJECT_ID(N'[dbo].[ServiceAuthorizations]'))
 ALTER TABLE [dbo].[ServiceAuthorizations] CHECK CONSTRAINT [FK_ServiceAuthorizations_AuthorizationTypes_AuthorizationTypeID]
+
 
 /****** End ServiceAuthorization ******/
 
@@ -803,8 +827,9 @@ SELECT
     [ID]
 FROM
 	[ApiClients]
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -1254,8 +1279,9 @@ SELECT
     [ID]
 FROM
 	[Services]
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -1529,8 +1555,9 @@ FROM
 	[Operations]
 WHERE
 	([ServiceID] = @ServiceID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -1804,8 +1831,9 @@ FROM
 	[OperationAuthorizations]
 WHERE
 	([OperationID] = @OperationID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -1872,8 +1900,9 @@ FROM
 	[OperationAuthorizations]
 WHERE
 	([ApiClientID] = @ApiClientID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -2147,8 +2176,9 @@ FROM
 	[ServiceAuthorizations]
 WHERE
 	([ServiceID] = @ServiceID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -2215,8 +2245,9 @@ FROM
 	[ServiceAuthorizations]
 WHERE
 	([ApiClientID] = @ApiClientID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 

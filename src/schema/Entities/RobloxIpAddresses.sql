@@ -140,6 +140,7 @@ CREATE TABLE [dbo].[IPAddresses](
 ON [PRIMARY]
 END
 
+
 /****** End IPAddress ******/
 
 /****** Begin UserIPAddressV2 ******/
@@ -167,6 +168,7 @@ WITH CHECK ADD CONSTRAINT [FK_UserIPAddressesV3_IPAddresses_IPAddressID] FOREIGN
 REFERENCES [dbo].[IPAddresses] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_UserIPAddressesV3_IPAddresses_IPAddressID]') AND parent_object_id = OBJECT_ID(N'[dbo].[UserIPAddressesV3]'))
 ALTER TABLE [dbo].[UserIPAddressesV3] CHECK CONSTRAINT [FK_UserIPAddressesV3_IPAddresses_IPAddressID]
+
 
 /****** End UserIPAddressV2 ******/
 
@@ -697,8 +699,9 @@ FROM
 	[UserIPAddressesV3]
 WHERE
 	([UserID] = @UserID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -733,8 +736,9 @@ FROM
 	[UserIPAddressesV3]
 WHERE
 	([IPAddressID] = @IPAddressID)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -871,95 +875,6 @@ FROM
     [UserIPAddressesV3]
 WHERE
     ([ID] = @ID)
-
-SET NOCOUNT OFF
-
-RETURN
-
-GO
-
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserIPAddressesV3_GetUserIPAddressV2IDsByUserID]') AND type in (N'P', N'PC'))
-BEGIN
-	EXEC('CREATE PROCEDURE [dbo].[UserIPAddressesV3_GetUserIPAddressV2IDsByUserID] AS BEGIN SET NOCOUNT ON; END')
-END
-
-SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-ALTER PROCEDURE [dbo].[UserIPAddressesV3_GetUserIPAddressV2IDsByUserID]
-(
-    @UserID [bigint],
-    @Count [int],
-    @ExclusiveStartLastSeen [datetime] NULL,
-    @ExclusiveStartID [bigint] NULL
-)
-AS
-
-SET NOCOUNT ON
-
-IF (@ExclusiveStartID IS NOT NULL)
-BEGIN
-    DECLARE @ExclusiveStartIDOffset int
-    SELECT
-        @ExclusiveStartIDOffset = ROW_NUMBER() OVER (ORDER BY [ID])
-    FROM
-        [UserIPAddressesV3]
-    WHERE
-        ([ID] = @ExclusiveStartID) AND ([UserID] = @UserID)
-    ORDER BY
-        [ID]
-
-    SELECT
-        [ID]
-    FROM
-        [UserIPAddressesV3]
-    WHERE
-        ([UserID] = @UserID)
-    ORDER BY
-        [ID]
-    OFFSET @ExclusiveStartIDOffset ROWS FETCH NEXT @Count ROWS ONLY
-
-    SET NOCOUNT OFF
-
-    RETURN
-END
-
-IF (@ExclusiveStartLastSeen IS NOT NULL)
-BEGIN
-    DECLARE @ExclusiveStartLastSeenOffset int
-    SELECT
-        @ExclusiveStartLastSeenOffset = ROW_NUMBER() OVER (ORDER BY [LastSeen])
-    FROM
-        [UserIPAddressesV3]
-    WHERE
-        ([LastSeen] = @ExclusiveStartLastSeen) AND ([UserID] = @UserID)
-    ORDER BY
-        [LastSeen]
-
-    IF (@ExclusiveStartLastSeenOffset IS NULL)
-    BEGIN
-        SET NOCOUNT OFF
-
-        RETURN
-    END
-
-    SELECT
-        [ID]
-    FROM
-        [UserIPAddressesV3]
-    WHERE
-        ([UserID] = @UserID)
-    ORDER BY
-        [ID]
-    OFFSET @ExclusiveStartLastSeenOffset ROWS FETCH NEXT @Count ROWS ONLY
-
-    SET NOCOUNT OFF
-
-    RETURN
-END
 
 SET NOCOUNT OFF
 

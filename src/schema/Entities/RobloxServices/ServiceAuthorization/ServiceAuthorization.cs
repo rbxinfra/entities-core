@@ -128,7 +128,7 @@ internal class ServiceAuthorization : IRobloxEntity<int, ServiceAuthorizationDAL
             {
                 return ServiceAuthorizationDAL.GetServiceAuthorizationsByServiceID(
                     serviceID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -166,7 +166,7 @@ internal class ServiceAuthorization : IRobloxEntity<int, ServiceAuthorizationDAL
             {
                 return ServiceAuthorizationDAL.GetServiceAuthorizationsByApiClientID(
                     apiClientID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },

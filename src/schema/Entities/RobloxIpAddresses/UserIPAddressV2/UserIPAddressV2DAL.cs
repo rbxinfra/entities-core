@@ -167,29 +167,6 @@ internal class UserIPAddressV2DAL
         );
     }
 
-    public static ICollection<long> GetUserIPAddressesV2ByUserID(long userID, int count, DateTime? exclusiveStartLastSeen, long? exclusiveStartId)
-    {
-        if (userID == default(long)) 
-            throw new ArgumentException("Parameter 'userID' cannot be null, empty or the default value.");
-        if (count < 1)
-            throw new ApplicationException("Required value not specified: Count.");
-        if (exclusiveStartId != null && exclusiveStartId < 0)
-            throw new ApplicationException("Parameter 'ExclusiveStartID' cannot be negative.");
-
-        var queryParameters = new SqlParameter[]
-        {
-            new SqlParameter("@UserID", userID),
-            new SqlParameter("@Count", count),
-            new SqlParameter("@ExclusiveStartLastSeen", exclusiveStartLastSeen != null ? exclusiveStartLastSeen.Value.ToUniversalTime() : DBNull.Value),
-            new SqlParameter("@ExclusiveStartID", exclusiveStartId != null ? exclusiveStartId.Value : DBNull.Value),
-        };
-
-        return _Database.GetIDCollection<long>(
-            "UserIPAddressesV3_GetUserIPAddressV2IDsByUserID",
-            queryParameters
-        );
-    }
-
     public static ICollection<UserIPAddressV2DAL> MultiGet(IEnumerable<long> ids)
     {
         return _Database.MultiGet(

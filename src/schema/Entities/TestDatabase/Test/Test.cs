@@ -158,7 +158,7 @@ internal class Test : IRobloxEntity<int, TestDAL>, IRemoteCacheableObject
             () =>
             {
                 return TestDAL.GetAllPaged(
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -181,7 +181,7 @@ internal class Test : IRobloxEntity<int, TestDAL>, IRemoteCacheableObject
             {
                 return TestDAL.GetByNamePaged(
                     name,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -277,8 +277,7 @@ internal class Test : IRobloxEntity<int, TestDAL>, IRemoteCacheableObject
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: false, idLookupsAreCacheable: false, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(Test).ToString(),
-        false
-        ,
+        false,
         global::Roblox.TestMigrationSettings.TestMigrationSettings.RemoteCacheableSettings
     );
 

@@ -166,7 +166,7 @@ internal class UserEmailAddress : IRobloxEntity<long, UserEmailAddressDAL>, IRem
             {
                 return UserEmailAddressDAL.GetValidUserEmailAddressIDsPaged(
                     userID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -190,7 +190,7 @@ internal class UserEmailAddress : IRobloxEntity<long, UserEmailAddressDAL>, IRem
                 return UserEmailAddressDAL.GetValidUserEmailAddressIDsByIsVerifiedPaged(
                     userID,
                     isVerified,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -213,31 +213,8 @@ internal class UserEmailAddress : IRobloxEntity<long, UserEmailAddressDAL>, IRem
             {
                 return UserEmailAddressDAL.GetUserEmailAddressIDsPaged(
                     userID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
-                );
-            },
-            Get
-        );
-    }
-
-    public static ICollection<UserEmailAddress> GetUserEmailAddressesByEmailAddressID(int emailAddressID, int count, long exclusiveStartId)
-    {
-        var collectionId = string.Format("GetUserEmailAddressesByEmailAddressID_EmailAddressID:{0}_Count:{1}_ExclusiveStartID:{2}", emailAddressID, count, exclusiveStartId);
-
-        return EntityHelper.GetEntityCollection<UserEmailAddress, long>(
-            EntityCacheInfo,
-            new CacheManager.CachePolicy(
-                CacheManager.CacheScopeFilter.Qualified,
-                string.Format("EmailAddressID:{0}", emailAddressID)
-            ),
-            collectionId,
-            () =>
-            {
-                return UserEmailAddressDAL.GetUserEmailAddressIDsByEmailAddressID(
-                    emailAddressID,
-                    count,
-                    exclusiveStartId
                 );
             },
             Get
@@ -256,55 +233,6 @@ internal class UserEmailAddress : IRobloxEntity<long, UserEmailAddressDAL>, IRem
             ),
             countId,
             () => UserEmailAddressDAL.GetTotalNumberOfUserEmailAddressIDsByEmailAddressID(emailAddressID)
-        );
-    }
-
-    public static ICollection<UserEmailAddress> GetUserEmailAddressesByEmailAddressIDAndIsValid(int emailAddressID, bool isValid, int count, long exclusiveStartId)
-    {
-        var collectionId = string.Format("GetUserEmailAddressesByEmailAddressIDAndIsValid_EmailAddressID:{0}_IsValid:{1}_Count:{2}_ExclusiveStartID:{3}", emailAddressID, isValid, count, exclusiveStartId);
-
-        return EntityHelper.GetEntityCollection<UserEmailAddress, long>(
-            EntityCacheInfo,
-            new CacheManager.CachePolicy(
-                CacheManager.CacheScopeFilter.Qualified,
-                string.Format("EmailAddressID:{0}_IsValid:{1}", emailAddressID, isValid)
-            ),
-            collectionId,
-            () =>
-            {
-                return UserEmailAddressDAL.GetUserEmailAddressIDsByEmailAddressIDAndIsValid(
-                    emailAddressID,
-                    isValid,
-                    count,
-                    exclusiveStartId
-                );
-            },
-            Get
-        );
-    }
-
-    public static ICollection<UserEmailAddress> GetUserEmailAddressesByEmailAddressIDIsVerifiedAndIsValid(int emailAddressID, bool isVerified, bool isValid, int count, long exclusiveStartId)
-    {
-        var collectionId = string.Format("GetUserEmailAddressesByEmailAddressIDIsVerifiedAndIsValid_EmailAddressID:{0}_IsVerified:{1}_IsValid:{2}_Count:{3}_ExclusiveStartID:{4}", emailAddressID, isVerified, isValid, count, exclusiveStartId);
-
-        return EntityHelper.GetEntityCollection<UserEmailAddress, long>(
-            EntityCacheInfo,
-            new CacheManager.CachePolicy(
-                CacheManager.CacheScopeFilter.Qualified,
-                string.Format("EmailAddressID:{0}_IsVerified:{1}_IsValid:{2}", emailAddressID, isVerified, isValid)
-            ),
-            collectionId,
-            () =>
-            {
-                return UserEmailAddressDAL.GetUserEmailAddressIDsByEmailAddressIDIsVerifiedAndIsValid(
-                    emailAddressID,
-                    isVerified,
-                    isValid,
-                    count,
-                    exclusiveStartId
-                );
-            },
-            Get
         );
     }
 
@@ -342,7 +270,7 @@ internal class UserEmailAddress : IRobloxEntity<long, UserEmailAddressDAL>, IRem
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: true, idLookupsAreCacheable: true, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(UserEmailAddress).ToString(),
-        true
+        true,
     );
 
     /// <inheritdoc cref="ICacheableObject.BuildEntityIDLookups"/>
@@ -357,8 +285,6 @@ internal class UserEmailAddress : IRobloxEntity<long, UserEmailAddressDAL>, IRem
         yield return new StateToken(string.Format("UserID:{0}", UserID));
         yield return new StateToken(string.Format("EmailAddressID:{0}", EmailAddressID));
         yield return new StateToken(string.Format("UserID:{0}_IsVerified:{1}", UserID, IsVerified));
-        yield return new StateToken(string.Format("EmailAddressID:{0}_IsValid:{1}", EmailAddressID, IsValid));
-        yield return new StateToken(string.Format("EmailAddressID:{0}_IsVerified:{1}_IsValid:{2}", EmailAddressID, IsVerified, IsValid));
         yield break;
     }
 

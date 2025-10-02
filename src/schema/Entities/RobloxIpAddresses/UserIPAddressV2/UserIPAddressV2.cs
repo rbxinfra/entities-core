@@ -102,7 +102,7 @@ internal class UserIPAddressV2 : IRobloxEntity<long, UserIPAddressV2DAL>, IRemot
             {
                 return UserIPAddressV2DAL.GetUserIPAddressesV2ByUserPaged(
                     userID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -125,7 +125,7 @@ internal class UserIPAddressV2 : IRobloxEntity<long, UserIPAddressV2DAL>, IRemot
             {
                 return UserIPAddressV2DAL.GetUserIPAddressesV2ByAddressPaged(
                     IPAddressID,
-                    startRowIndex + 1,
+                    startRowIndex,
                     maximumRows
                 );
             },
@@ -180,30 +180,6 @@ internal class UserIPAddressV2 : IRobloxEntity<long, UserIPAddressV2DAL>, IRemot
         );
     }
 
-    public static ICollection<UserIPAddressV2> GetUserIPAddressesV2ByUserID(long userID, int count, DateTime? exclusiveStartLastSeen, long? exclusiveStartId)
-    {
-        var collectionId = string.Format("GetUserIPAddressesV2ByUserID_UserID:{0}_Count:{1}_ExclusiveStartLastSeen:{2}_ExclusiveStartID:{3}", userID, count, exclusiveStartLastSeen, exclusiveStartId);
-
-        return EntityHelper.GetEntityCollection<UserIPAddressV2, long>(
-            EntityCacheInfo,
-            new CacheManager.CachePolicy(
-                CacheManager.CacheScopeFilter.Qualified,
-                string.Format("UserID:{0}", userID)
-            ),
-            collectionId,
-            () =>
-            {
-                return UserIPAddressV2DAL.GetUserIPAddressesV2ByUserID(
-                    userID,
-                    count,
-                    exclusiveStartLastSeen,
-                    exclusiveStartId
-                );
-            },
-            Get
-        );
-    }
-
     public static ICollection<UserIPAddressV2> MultiGet(IEnumerable<long> ids)
     {
         if (ids == null) throw new ArgumentNullException(nameof(ids));
@@ -238,7 +214,7 @@ internal class UserIPAddressV2 : IRobloxEntity<long, UserIPAddressV2DAL>, IRemot
     public static CacheInfo EntityCacheInfo = new CacheInfo(
         new CacheabilitySettings(collectionsAreCacheable: false, countsAreCacheable: false, entityIsCacheable: true, idLookupsAreCacheable: true, hasUnqualifiedCollections: false, idLookupsAreCaseSensitive: false),
         typeof(UserIPAddressV2).ToString(),
-        true
+        true,
     );
 
     /// <inheritdoc cref="ICacheableObject.BuildEntityIDLookups"/>

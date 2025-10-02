@@ -140,6 +140,7 @@ CREATE TABLE [dbo].[DeviceTypes](
 ON [PRIMARY]
 END
 
+
 /****** End DeviceType ******/
 
 

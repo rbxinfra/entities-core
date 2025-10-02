@@ -140,7 +140,35 @@ CREATE TABLE [dbo].[MACAddresses](
 ON [PRIMARY]
 END
 
+
 /****** End MACAddress ******/
+
+/****** Begin UserMACAddress ******/
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserMACAddresses]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[UserMACAddresses](
+	[ID] [bigint] IDENTITY(1,1) NOT FOR REPLICATION NOT NULL,
+    [UserID] [bigint] NOT NULL,
+    [MACAddressID] [bigint] NOT NULL,
+    [Created] [datetime] NOT NULL,
+ CONSTRAINT [PK_UserMACAddresses] PRIMARY KEY CLUSTERED
+(
+    [ID] ASC
+) WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)
+ON [PRIMARY]
+END
+
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_UserMACAddresses_MACAddresses_MACAddressID]') AND parent_object_id = OBJECT_ID(N'[dbo].[UserMACAddresses]'))
+ALTER TABLE [dbo].[UserMACAddresses] 
+WITH CHECK ADD CONSTRAINT [FK_UserMACAddresses_MACAddresses_MACAddressID] FOREIGN KEY ([MACAddressID])
+REFERENCES [dbo].[MACAddresses] ([ID])
+IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_UserMACAddresses_MACAddresses_MACAddressID]') AND parent_object_id = OBJECT_ID(N'[dbo].[UserMACAddresses]'))
+ALTER TABLE [dbo].[UserMACAddresses] CHECK CONSTRAINT [FK_UserMACAddresses_MACAddresses_MACAddressID]
+
+
+/****** End UserMACAddress ******/
 
 
 /****** Begin MACAddress ******/
@@ -421,3 +449,334 @@ RETURN
 
 GO
 /********** End MACAddress **********/
+/****** Begin UserMACAddress ******/
+
+/* Standard Insertion */
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserMACAddresses_InsertUserMACAddress]') AND type in (N'P', N'PC'))
+BEGIN
+	EXEC('CREATE PROCEDURE [dbo].[UserMACAddresses_InsertUserMACAddress] AS BEGIN SET NOCOUNT ON; END')
+END
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+
+ALTER PROCEDURE [dbo].[UserMACAddresses_InsertUserMACAddress]
+(
+	@ID [bigint] OUTPUT,
+    @UserID [bigint],
+    @MACAddressID [bigint],
+    @Created [datetime]
+)
+AS
+
+SET NOCOUNT ON
+
+INSERT INTO
+	[UserMACAddresses]
+(
+[UserID],
+[MACAddressID],
+[Created]
+)
+VALUES
+(
+@UserID,
+@MACAddressID,
+@Created
+)
+
+SET @ID = SCOPE_IDENTITY();
+
+SET NOCOUNT OFF
+
+RETURN
+
+GO
+
+/* Standard Update */
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserMACAddresses_UpdateUserMACAddressByID]') AND type in (N'P', N'PC'))
+BEGIN
+    EXEC('CREATE PROCEDURE [dbo].[UserMACAddresses_UpdateUserMACAddressByID] AS BEGIN SET NOCOUNT ON; END')
+END
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+
+ALTER PROCEDURE [dbo].[UserMACAddresses_UpdateUserMACAddressByID]
+(
+    @ID [bigint],
+    @UserID [bigint],
+    @MACAddressID [bigint],
+    @Created [datetime]
+)
+AS
+
+SET NOCOUNT ON
+
+UPDATE
+    [UserMACAddresses]
+SET
+[UserID] = @UserID,
+[MACAddressID] = @MACAddressID,
+[Created] = @Created
+WHERE
+    ([ID] = @ID)
+
+SET NOCOUNT OFF
+
+RETURN
+
+GO
+
+/* Standard Deletion */
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserMACAddresses_DeleteUserMACAddressByID]') AND type in (N'P', N'PC'))
+BEGIN
+    EXEC('CREATE PROCEDURE [dbo].[UserMACAddresses_DeleteUserMACAddressByID] AS BEGIN SET NOCOUNT ON; END')
+END
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+
+ALTER PROCEDURE [dbo].[UserMACAddresses_DeleteUserMACAddressByID]
+(
+    @ID [bigint]
+)
+AS
+
+SET NOCOUNT ON
+
+DELETE FROM
+    [UserMACAddresses]
+WHERE
+    ([ID] = @ID)
+
+SET NOCOUNT OFF
+
+RETURN
+
+GO
+
+/* Standard Get-By-ID */
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserMACAddresses_GetUserMACAddressByID]') AND type in (N'P', N'PC'))
+BEGIN
+    EXEC('CREATE PROCEDURE [dbo].[UserMACAddresses_GetUserMACAddressByID] AS BEGIN SET NOCOUNT ON; END')
+END
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER OFF
+GO
+
+ALTER PROCEDURE [dbo].[UserMACAddresses_GetUserMACAddressByID]
+(
+    @ID [bigint]
+)
+AS
+
+SET NOCOUNT ON
+
+SELECT
+    [ID],
+    [UserID]
+    ,[MACAddressID]
+    ,[Created]
+FROM
+    [UserMACAddresses]
+WHERE
+    ([ID] = @ID)
+
+SET NOCOUNT OFF
+
+RETURN
+
+GO
+
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserMACAddresses_GetUserMACAddressByUserIDAndMACAddressID]') AND type in (N'P', N'PC'))
+BEGIN
+	EXEC('CREATE PROCEDURE [dbo].[UserMACAddresses_GetUserMACAddressByUserIDAndMACAddressID] AS BEGIN SET NOCOUNT ON; END')
+END
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[UserMACAddresses_GetUserMACAddressByUserIDAndMACAddressID]
+(
+    @UserID [bigint],
+    @MACAddressID [bigint]
+)
+AS
+
+SET NOCOUNT ON
+
+SELECT
+    [ID]
+    ,[UserID]
+    ,[MACAddressID]
+    ,[Created]
+FROM
+	[UserMACAddresses]
+WHERE
+	([UserID] = @UserID) AND ([MACAddressID] = @MACAddressID)
+
+SET NOCOUNT OFF
+
+RETURN
+
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserMACAddresses_GetUserMACAddressIDsByUserID_Paged]') AND type in (N'P', N'PC'))
+BEGIN
+	EXEC('CREATE PROCEDURE [dbo].[UserMACAddresses_GetUserMACAddressIDsByUserID_Paged] AS BEGIN SET NOCOUNT ON; END')
+END
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[UserMACAddresses_GetUserMACAddressIDsByUserID_Paged]
+(
+    @UserID [bigint],
+    @StartRowIndex [bigint],
+    @MaximumRows [bigint]
+)
+AS
+
+SET NOCOUNT ON
+
+SELECT
+    [ID]
+FROM
+	[UserMACAddresses]
+WHERE
+	([UserID] = @UserID)
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
+
+SET NOCOUNT OFF
+
+RETURN
+
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserMACAddresses_GetUserMACAddressIDsByMACAddressID_Paged]') AND type in (N'P', N'PC'))
+BEGIN
+	EXEC('CREATE PROCEDURE [dbo].[UserMACAddresses_GetUserMACAddressIDsByMACAddressID_Paged] AS BEGIN SET NOCOUNT ON; END')
+END
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[UserMACAddresses_GetUserMACAddressIDsByMACAddressID_Paged]
+(
+    @MACAddressID [bigint],
+    @StartRowIndex [bigint],
+    @MaximumRows [bigint]
+)
+AS
+
+SET NOCOUNT ON
+
+SELECT
+    [ID]
+FROM
+	[UserMACAddresses]
+WHERE
+	([MACAddressID] = @MACAddressID)
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
+
+SET NOCOUNT OFF
+
+RETURN
+
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserMACAddresses_GetTotalNumberOfUserMACAddresssByUserID]') AND type in (N'P', N'PC'))
+BEGIN
+	EXEC('CREATE PROCEDURE [dbo].[UserMACAddresses_GetTotalNumberOfUserMACAddresssByUserID] AS BEGIN SET NOCOUNT ON; END')
+END
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[UserMACAddresses_GetTotalNumberOfUserMACAddresssByUserID]
+(
+    @UserID [bigint]
+)
+AS
+
+SET NOCOUNT ON
+
+SELECT
+    COUNT(*)
+FROM
+	[UserMACAddresses]
+WHERE
+	([UserID] = @UserID)
+
+SET NOCOUNT OFF
+
+RETURN
+
+GO
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[UserMACAddresses_GetTotalNumberOfUserMACAddresssByMACAddressID]') AND type in (N'P', N'PC'))
+BEGIN
+	EXEC('CREATE PROCEDURE [dbo].[UserMACAddresses_GetTotalNumberOfUserMACAddresssByMACAddressID] AS BEGIN SET NOCOUNT ON; END')
+END
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[UserMACAddresses_GetTotalNumberOfUserMACAddresssByMACAddressID]
+(
+    @MACAddressID [bigint]
+)
+AS
+
+SET NOCOUNT ON
+
+SELECT
+    COUNT(*)
+FROM
+	[UserMACAddresses]
+WHERE
+	([MACAddressID] = @MACAddressID)
+
+SET NOCOUNT OFF
+
+RETURN
+
+GO
+/********** End UserMACAddress **********/

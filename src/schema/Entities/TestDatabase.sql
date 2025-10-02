@@ -138,6 +138,7 @@ CREATE TABLE [dbo].[TestEnums](
 ON [PRIMARY]
 END
 
+
 /****** End TestEnum ******/
 
 /****** Begin Test ******/
@@ -167,6 +168,7 @@ WITH CHECK ADD CONSTRAINT [FK_Tests_TestEnums_TestEnumID] FOREIGN KEY ([TestEnum
 REFERENCES [dbo].[TestEnums] ([ID])
 IF EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Tests_TestEnums_TestEnumID]') AND parent_object_id = OBJECT_ID(N'[dbo].[Tests]'))
 ALTER TABLE [dbo].[Tests] CHECK CONSTRAINT [FK_Tests_TestEnums_TestEnumID]
+
 
 /****** End Test ******/
 
@@ -732,8 +734,9 @@ SELECT
     [ID]
 FROM
 	[Tests]
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
@@ -768,8 +771,9 @@ FROM
 	[Tests]
 WHERE
 	([Name] = @Name)
-ORDER BY [ID]
-OFFSET @StartRowIndex-2 ROWS FETCH NEXT @MaximumRows ROWS ONLY
+ORDER BY
+    [ID] ASC
+OFFSET @StartRowIndex ROWS FETCH NEXT @MaximumRows ROWS ONLY
 
 SET NOCOUNT OFF
 
